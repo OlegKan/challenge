@@ -25,12 +25,18 @@ buildscript {
 
         'supportLibrary': '27.1.1',
         'androidPlugin': '3.2.0-alpha16',
+        'dagger': '2.16',
     ]
 
     ext.deps = [
         android: [
             'gradlePlugin': "com.android.tools.build:gradle:${versions.androidPlugin}",
         ],
+        'dagger': [
+            dagger: "com.google.dagger:dagger:${versions.dagger}",
+            compiler: "com.google.dagger:dagger-compiler:${versions.dagger}",
+        ],
+        javaxannotation: "javax.annotation:jsr250-api:1.0",
         'support': [
             'annotations': "com.android.support:support-annotations:${versions.supportLibrary}",
             'compat': "com.android.support:support-compat:${versions.supportLibrary}",
