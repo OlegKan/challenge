@@ -14,4 +14,11 @@
  * limitations under the License.
  */
 
-include ':app', ':domain'
+apply plugin: 'java-library'
+
+dependencies {
+    implementation deps.reactivex.rxjava2
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

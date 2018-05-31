@@ -14,4 +14,15 @@
  * limitations under the License.
  */
 
-include ':app', ':domain'
+package com.simplaapliko.challenge.domain.repository;
+
+import com.simplaapliko.challenge.domain.model.Profile;
+
+import java.util.List;
+
+import io.reactivex.Single;
+
+public interface ProfileRepository {
+
+    Single<List<Profile>> getAllProfiles();
+}

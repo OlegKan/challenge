@@ -46,7 +46,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(path: ':domain')
 
     implementation deps.support.compat
     implementation deps.support.design
