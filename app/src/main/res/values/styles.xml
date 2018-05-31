@@ -30,7 +30,7 @@
     </style>
 
     <style name="AppTheme.Launcher" parent="AppTheme.NoActionBar">
-        <item name="android:background">@color/color_primary_dark</item>
+        <item name="android:background">@drawable/bg_launcher</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
