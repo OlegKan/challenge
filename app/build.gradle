@@ -43,6 +43,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    flavorDimensions "default"
+    productFlavors {
+        dev {
+            resConfigs("xxhdpi")
+            applicationIdSuffix '.dev'
+            versionNameSuffix '-dev'
+        }
+        prod {
+        }
+    }
 }
 
 dependencies {
@@ -54,6 +65,8 @@ dependencies {
     implementation deps.dagger.dagger
     annotationProcessor deps.dagger.compiler
     compileOnly deps.javaxannotation
+
+    implementation deps.reactivex.rxjava2
 
     testImplementation deps.junit
 }

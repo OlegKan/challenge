@@ -16,12 +16,18 @@
 
 package com.simplaapliko.challenge.di;
 
-import com.simplaapliko.challenge.App;
+import com.simplaapliko.challenge.data.MockProfileRepository;
+import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 
-import dagger.Component;
+import dagger.Module;
+import dagger.Provides;
 
-@ApplicationScope
-@Component(modules = {ApplicationModule.class, DataModule.class})
-public interface ApplicationComponent {
-    void inject(App app);
+@Module
+class DataModule {
+
+    @Provides
+    @ApplicationScope
+    ProfileRepository provideProfileRepository() {
+        return new MockProfileRepository();
+    }
 }
