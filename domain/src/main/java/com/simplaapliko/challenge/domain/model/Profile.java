@@ -51,6 +51,14 @@ public class Profile {
         return gender;
     }
 
+    public boolean isFemale() {
+        return gender == GENDER_FEMALE;
+    }
+
+    public boolean isMale() {
+        return gender == GENDER_MALE;
+    }
+
     public String getName() {
         return name;
     }

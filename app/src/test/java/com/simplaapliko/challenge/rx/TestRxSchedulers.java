@@ -14,17 +14,25 @@
  * limitations under the License.
  */
 
-package com.simplaapliko.challenge.di;
+package com.simplaapliko.challenge.rx;
 
-import com.simplaapliko.challenge.App;
-import com.simplaapliko.challenge.ui.overview.OverviewComponent;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 
-import dagger.Component;
+public class TestRxSchedulers extends RxSchedulers {
 
-@ApplicationScope
-@Component(modules = {ApplicationModule.class, DataModule.class, UtilsModule.class})
-public interface ApplicationComponent {
-    void inject(App app);
+    @Override
+    public Scheduler getMainThreadScheduler() {
+        return Schedulers.trampoline();
+    }
 
-    OverviewComponent plus(OverviewComponent.Module module);
+    @Override
+    public Scheduler getIoScheduler() {
+        return Schedulers.trampoline();
+    }
+
+    @Override
+    public Scheduler getComputationScheduler() {
+        return Schedulers.trampoline();
+    }
 }

@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package com.simplaapliko.challenge.di;
+package com.simplaapliko.challenge;
 
-import com.simplaapliko.challenge.App;
-import com.simplaapliko.challenge.ui.overview.OverviewComponent;
+import com.simplaapliko.challenge.domain.model.Profile;
 
-import dagger.Component;
+public class MockFactory {
 
-@ApplicationScope
-@Component(modules = {ApplicationModule.class, DataModule.class, UtilsModule.class})
-public interface ApplicationComponent {
-    void inject(App app);
+    public static Profile newProfile() {
+        String hobbies = "running, reading, travelling, photography, coding, music, fishing, " +
+                "cycling, yoga, hiking, scuba diving";
 
-    OverviewComponent plus(OverviewComponent.Module module);
+        return new Profile(1, Profile.GENDER_FEMALE, "Anna", 40, "", hobbies);
+    }
 }

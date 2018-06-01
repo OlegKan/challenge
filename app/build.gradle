@@ -59,6 +59,7 @@ android {
 dependencies {
     implementation project(path: ':domain')
 
+    implementation deps.support.cardview
     implementation deps.support.compat
     implementation deps.support.design
 
@@ -66,7 +67,9 @@ dependencies {
     annotationProcessor deps.dagger.compiler
     compileOnly deps.javaxannotation
 
+    implementation deps.reactivex.rxbinding
     implementation deps.reactivex.rxjava2
 
-    testImplementation deps.junit
+    testImplementation deps.test.junit
+    testImplementation deps.test.mockito
 }

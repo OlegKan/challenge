@@ -38,14 +38,19 @@ buildscript {
         ],
         javaxannotation: "javax.annotation:jsr250-api:1.0",
         reactivex: [
-            'rxjava2': "io.reactivex.rxjava2:rxjava:2.1.14"
+            'rxbinding': "com.jakewharton.rxbinding2:rxbinding:2.1.1",
+            'rxjava2': "io.reactivex.rxjava2:rxjava:2.1.14",
         ],
         'support': [
             'annotations': "com.android.support:support-annotations:${versions.supportLibrary}",
+            'cardview': "com.android.support:cardview-v7:${versions.supportLibrary}",
             'compat': "com.android.support:support-compat:${versions.supportLibrary}",
             'design': "com.android.support:design:${versions.supportLibrary}",
         ],
-        junit: 'junit:junit:4.12',
+        test: [
+            mockito: "org.mockito:mockito-core:2.18.3",
+            junit: "junit:junit:4.12",
+        ],
         truth: 'com.google.truth:truth:0.40',
     ]
 

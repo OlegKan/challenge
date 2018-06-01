@@ -21,6 +21,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.simplaapliko.challenge.ui.overview.OverviewActivity;
+
 public class LauncherActivity extends AppCompatActivity {
 
     @Override
@@ -36,7 +38,7 @@ public class LauncherActivity extends AppCompatActivity {
     }
 
     private void startMainActivity() {
-        Intent intent = ProfileOverviewActivity.getStartIntent(this);
+        Intent intent = OverviewActivity.getStartIntent(this);
         startActivity(intent);
     }
 }

@@ -17,5 +17,5 @@
 <resources>
     <string name="app_name">Challenge</string>
 
-    <string name="activity_profile_overview">Profiles</string>
+    <string name="activity_overview">Profiles</string>
 </resources>

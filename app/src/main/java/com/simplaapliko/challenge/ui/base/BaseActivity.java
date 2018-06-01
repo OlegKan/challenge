@@ -14,30 +14,38 @@
  * limitations under the License.
  */
 
-package com.simplaapliko.challenge.ui;
+package com.simplaapliko.challenge.ui.base;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.simplaapliko.challenge.App;
 import com.simplaapliko.challenge.R;
+import com.simplaapliko.challenge.di.ApplicationComponent;
 
-public class ProfileOverviewActivity extends AppCompatActivity {
-
-    public static Intent getStartIntent(Context context) {
-        return new Intent(context, ProfileOverviewActivity.class);
-    }
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_overview);
+        setContentView(getContentView());
+
+        injectDependencies(getApplicationComponent());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
     }
+
+    protected ApplicationComponent getApplicationComponent() {
+        return ((App) getApplicationContext()).getApplicationComponent();
+    }
+
+    @LayoutRes
+    protected abstract int getContentView();
+
+    protected abstract void injectDependencies(ApplicationComponent applicationComponent);
 }

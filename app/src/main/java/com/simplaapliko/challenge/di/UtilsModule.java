@@ -16,15 +16,18 @@
 
 package com.simplaapliko.challenge.di;
 
-import com.simplaapliko.challenge.App;
-import com.simplaapliko.challenge.ui.overview.OverviewComponent;
+import com.simplaapliko.challenge.rx.AppRxSchedulers;
+import com.simplaapliko.challenge.rx.RxSchedulers;
 
-import dagger.Component;
+import dagger.Module;
+import dagger.Provides;
 
-@ApplicationScope
-@Component(modules = {ApplicationModule.class, DataModule.class, UtilsModule.class})
-public interface ApplicationComponent {
-    void inject(App app);
+@Module
+public class UtilsModule {
 
-    OverviewComponent plus(OverviewComponent.Module module);
+    @Provides
+    @ApplicationScope
+    static RxSchedulers provideRxSchedulers() {
+        return new AppRxSchedulers();
+    }
 }

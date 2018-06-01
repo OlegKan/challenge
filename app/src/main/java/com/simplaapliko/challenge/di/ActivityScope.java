@@ -16,15 +16,12 @@
 
 package com.simplaapliko.challenge.di;
 
-import com.simplaapliko.challenge.App;
-import com.simplaapliko.challenge.ui.overview.OverviewComponent;
+import java.lang.annotation.Retention;
 
-import dagger.Component;
+import javax.inject.Scope;
 
-@ApplicationScope
-@Component(modules = {ApplicationModule.class, DataModule.class, UtilsModule.class})
-public interface ApplicationComponent {
-    void inject(App app);
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-    OverviewComponent plus(OverviewComponent.Module module);
-}
+@Scope
+@Retention(RUNTIME)
+public @interface ActivityScope {}
