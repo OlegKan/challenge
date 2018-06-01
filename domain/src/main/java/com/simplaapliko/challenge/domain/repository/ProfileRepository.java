@@ -16,13 +16,17 @@
 
 package com.simplaapliko.challenge.domain.repository;
 
+import com.simplaapliko.challenge.domain.model.Pair;
 import com.simplaapliko.challenge.domain.model.Profile;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public interface ProfileRepository {
 
     Single<List<Profile>> getAllProfiles();
+
+    Observable<Pair<Profile, Integer>> observeProfilesChanges();
 }

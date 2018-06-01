@@ -37,12 +37,18 @@ public interface OverviewContract {
     }
 
     interface View {
-        void displayProfiles(List<Profile> data);
+        void displayProfiles(List<Profile> profiles);
+
+        void addProfile(Profile profile);
+
+        void deleteProfile(Profile profile);
+
+        void updateProfile(Profile profile);
 
         void showMessage(String message);
 
-        Observable<Object> addProfile();
+        Observable<Object> onAddProfileClick();
 
-        Observable<Profile> showProfile();
+        Observable<Profile> onShowProfileClick();
     }
 }

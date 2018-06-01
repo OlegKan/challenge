@@ -48,6 +48,7 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
 
     private FloatingActionButton addFab;
     private ProfileAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
         addFab = findViewById(R.id.add_fab);
 
         adapter = new ProfileAdapter();
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -85,9 +86,25 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
     }
 
     @Override
-    public void displayProfiles(List<Profile> data) {
-        adapter.setData(data);
+    public void displayProfiles(List<Profile> profiles) {
+        adapter.setItems(profiles);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void addProfile(Profile profile) {
+        adapter.addItem(profile);
+        recyclerView.smoothScrollToPosition(adapter.getItemCount());
+    }
+
+    @Override
+    public void deleteProfile(Profile profile) {
+        adapter.deleteItem(profile);
+    }
+
+    @Override
+    public void updateProfile(Profile profile) {
+        adapter.updateItem(profile);
     }
 
     @Override
@@ -97,12 +114,12 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
     }
 
     @Override
-    public Observable<Object> addProfile() {
+    public Observable<Object> onAddProfileClick() {
         return RxView.clicks(addFab);
     }
 
     @Override
-    public Observable<Profile> showProfile() {
+    public Observable<Profile> onShowProfileClick() {
         return adapter.getClickObservable();
     }
 }

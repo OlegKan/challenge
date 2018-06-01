@@ -16,6 +16,7 @@
 
 package com.simplaapliko.challenge.ui.overview;
 
+import com.simplaapliko.challenge.domain.model.Pair;
 import com.simplaapliko.challenge.domain.model.Profile;
 import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 import com.simplaapliko.challenge.rx.RxSchedulers;
@@ -47,28 +48,46 @@ public class OverviewPresenter implements OverviewContract.Presenter {
     public void init() {
         bindView();
 
-        Disposable disposable = repository.getAllProfiles()
+        Disposable getAllProfiles = repository.getAllProfiles()
                 .compose(rxSchedulers.getComputationToMainTransformerSingle())
-                .subscribe(this::handleGetAllProfileSuccess, this::handleGetAllProfileError);
-        disposables.add(disposable);
+                .doFinally(this::startObservingProfilesChanges)
+                .subscribe(this::handleGetAllProfileSuccess, this::handleGetProfileError);
+        disposables.add(getAllProfiles);
     }
 
     private void handleGetAllProfileSuccess(List<Profile> data) {
         view.displayProfiles(data);
     }
 
-    private void handleGetAllProfileError(Throwable throwable) {
+    private void startObservingProfilesChanges() {
+        Disposable observe = repository.observeProfilesChanges()
+                .compose(rxSchedulers.getComputationToMainTransformer())
+                .subscribe(this::handleObserveChangesSuccess, this::handleGetProfileError);
+        disposables.add(observe);
+    }
+
+    private void handleObserveChangesSuccess(Pair<Profile, Integer> data) {
+        if (data.second == 0) {
+            view.addProfile(data.first);
+        } else if (data.second == 1) {
+            view.deleteProfile(data.first);
+        } else {
+            view.updateProfile(data.first);
+        }
+    }
+
+    private void handleGetProfileError(Throwable throwable) {
         view.showMessage(throwable.getLocalizedMessage());
     }
 
     private void bindView() {
-        Disposable addProfile = view.addProfile()
+        Disposable addProfile = view.onAddProfileClick()
                 .observeOn(rxSchedulers.getMainThreadScheduler())
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .subscribe(o -> handleAddProfileAction(), throwable -> handleUnknownError());
         disposables.add(addProfile);
 
-        Disposable showProfile = view.showProfile()
+        Disposable showProfile = view.onShowProfileClick()
                 .observeOn(rxSchedulers.getMainThreadScheduler())
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .subscribe(this::handleShowProfileAction, throwable -> handleUnknownError());

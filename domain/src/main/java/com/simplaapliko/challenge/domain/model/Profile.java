@@ -98,9 +98,7 @@ public class Profile {
         if (gender != profile.gender) return false;
         if (age != profile.age) return false;
         if (name != null ? !name.equals(profile.name) : profile.name != null) return false;
-        if (imagePath != null ? !imagePath.equals(profile.imagePath) : profile.imagePath != null)
-            return false;
-        return hobbies != null ? hobbies.equals(profile.hobbies) : profile.hobbies == null;
+        return imagePath != null ? imagePath.equals(profile.imagePath) : profile.imagePath == null;
     }
 
     @Override
@@ -110,7 +108,6 @@ public class Profile {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + age;
         result = 31 * result + (imagePath != null ? imagePath.hashCode() : 0);
-        result = 31 * result + (hobbies != null ? hobbies.hashCode() : 0);
         return result;
     }
 

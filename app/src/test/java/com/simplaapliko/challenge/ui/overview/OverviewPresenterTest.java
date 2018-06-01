@@ -50,8 +50,8 @@ public class OverviewPresenterTest {
 
     @Before
     public void setUp() {
-        when(mockView.addProfile()).thenReturn(Observable.just(new Object()));
-        when(mockView.showProfile()).thenReturn(Observable.just(MockFactory.newProfile()));
+        when(mockView.onAddProfileClick()).thenReturn(Observable.just(new Object()));
+        when(mockView.onShowProfileClick()).thenReturn(Observable.just(MockFactory.newProfile()));
 
         RxSchedulers rxSchedulers = new TestRxSchedulers();
         presenter = new OverviewPresenter(rxSchedulers, mockRepository, mockView, mockNavigator);
@@ -61,6 +61,7 @@ public class OverviewPresenterTest {
     public void init() {
         List<Profile> profiles = new ArrayList<>();
         when(mockRepository.getAllProfiles()).thenReturn(Single.just(profiles));
+        when(mockRepository.observeProfilesChanges()).thenReturn(Observable.never());
 
         presenter.init();
 

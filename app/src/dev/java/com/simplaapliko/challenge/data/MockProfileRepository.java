@@ -18,13 +18,16 @@ package com.simplaapliko.challenge.data;
 
 import android.support.annotation.NonNull;
 
+import com.simplaapliko.challenge.domain.model.Pair;
 import com.simplaapliko.challenge.domain.model.Profile;
 import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public class MockProfileRepository implements ProfileRepository {
@@ -36,6 +39,40 @@ public class MockProfileRepository implements ProfileRepository {
         return Maybe.concat(getCachedProfiles(), getLiveProfiles())
                 .filter(profiles -> !profiles.isEmpty())
                 .first(new ArrayList<>());
+    }
+
+    @Override
+    public Observable<Pair<Profile, Integer>> observeProfilesChanges() {
+        return Observable.merge(observeAddedProfiles(), observeDeletedProfiles(),
+                observeUpdatedProfiles());
+    }
+
+    private Observable<Pair<Profile, Integer>> observeAddedProfiles() {
+        return Observable.intervalRange(27, 100, 0, 5, TimeUnit.SECONDS)
+                .map(aLong -> Pair.create(generateNewProfile(aLong.intValue()), 0))
+                .doOnNext(pair -> {
+                    profilesCache.add(pair.first);
+                });
+    }
+
+    private Observable<Pair<Profile, Integer>> observeDeletedProfiles() {
+        return Observable.intervalRange(27, 100, 0, 9, TimeUnit.SECONDS)
+                .map(aLong -> Pair.create(generateNewProfile(aLong.intValue()), 1))
+                .doOnNext(pair -> {
+                    profilesCache.remove(pair.first);
+                });
+    }
+
+    private Observable<Pair<Profile, Integer>> observeUpdatedProfiles() {
+        return Observable.intervalRange(27, 100, 0, 7, TimeUnit.SECONDS)
+                .map(aLong -> Pair.create(generateUpdatedProfile(aLong.intValue()), 2))
+                .doOnNext(pair -> {
+                    if (profilesCache.contains(pair.first)) {
+                        int index = profilesCache.indexOf(pair.first);
+                        profilesCache.remove(index);
+                        profilesCache.add(index, pair.first);
+                    }
+                });
     }
 
     private Maybe<List<Profile>> getCachedProfiles() {
@@ -74,5 +111,19 @@ public class MockProfileRepository implements ProfileRepository {
                 "cycling, yoga, hiking, scuba diving";
 
         return new Profile(id, gender, name, 40, "", hobbies);
+    }
+
+    private Profile generateNewProfile(int id) {
+
+        String hobbies = "running";
+
+        return new Profile(id, Profile.GENDER_MALE, "New", 40, "", hobbies);
+    }
+
+    private Profile generateUpdatedProfile(int id) {
+
+        String hobbies = "reading, travelling";
+
+        return new Profile(id, Profile.GENDER_MALE, "New", 40, "", hobbies);
     }
 }

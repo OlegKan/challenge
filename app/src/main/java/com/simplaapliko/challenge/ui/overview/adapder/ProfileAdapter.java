@@ -33,12 +33,12 @@ import io.reactivex.subjects.PublishSubject;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileViewHolder> {
 
-    @NonNull private List<Profile> data = new ArrayList<>();
+    @NonNull private List<Profile> items = new ArrayList<>();
 
     private ProfileViewHolder.ClickListener clickListener = new ProfileViewHolder.ClickListener() {
         @Override
         public void onItemClicked(int position) {
-            onClickSubject.onNext(data.get(position));
+            onClickSubject.onNext(items.get(position));
         }
     };
 
@@ -54,20 +54,43 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ProfileViewHolder holder, int position) {
-        Profile model = data.get(position);
+        Profile model = items.get(position);
         holder.bind(model);
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return items.size();
     }
 
-    public void setData(@NonNull List<Profile> data) {
-        if (data == null) {
-            this.data = new ArrayList<>();
+    public void setItems(@NonNull List<Profile> items) {
+        if (items == null) {
+            this.items = new ArrayList<>();
         } else {
-            this.data = new ArrayList<>(data);
+            this.items = new ArrayList<>(items);
+        }
+    }
+
+    public void addItem(@NonNull Profile item) {
+        items.add(item);
+        int position = items.size() - 1;
+        notifyItemInserted(position);
+    }
+
+    public void deleteItem(@NonNull Profile item) {
+        if (items.contains(item)) {
+            int index = items.indexOf(item);
+            items.remove(index);
+            notifyItemRemoved(index);
+        }
+    }
+
+    public void updateItem(@NonNull Profile item) {
+        if (items.contains(item)) {
+            int index = items.indexOf(item);
+            items.remove(index);
+            items.add(index, item);
+            notifyItemChanged(index, item);
         }
     }
 
