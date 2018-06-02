@@ -17,6 +17,8 @@
 <resources>
     <string name="app_name">Challenge</string>
 
+    <string name="action_delete">Delete</string>
+
     <string name="profile_age">Age</string>
     <string name="profile_gender">Gender</string>
     <string name="profile_hobbies">Hobbies</string>

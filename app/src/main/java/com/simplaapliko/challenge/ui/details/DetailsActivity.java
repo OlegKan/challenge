@@ -24,11 +24,14 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.SparseArray;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding2.view.RxMenuItem;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.simplaapliko.challenge.R;
 import com.simplaapliko.challenge.di.ApplicationComponent;
@@ -65,6 +68,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     private TextInputEditText hobbiesText;
     private TextInputEditText nameText;
     private FloatingActionButton saveFab;
+
+    private Observable<Object> deleteProfileObservable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +108,17 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
             SCREEN_COMPONENT_CACHE.put(screenSessionId, screenComponent);
         }
         screenComponent.inject(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_details, menu);
+
+        MenuItem deleteMenuItem = menu.findItem(R.id.action_delete);
+        deleteProfileObservable = RxMenuItem.clicks(deleteMenuItem);
+        presenter.bindMenu();
+        return true;
     }
 
     @Override
@@ -205,6 +221,11 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT)
                 .show();
+    }
+
+    @Override
+    public Observable<Object> onDeleteProfileClick() {
+        return deleteProfileObservable;
     }
 
     @Override

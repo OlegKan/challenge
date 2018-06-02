@@ -28,6 +28,8 @@ public interface DetailsContract {
         void init();
 
         void destroy();
+
+        void bindMenu();
     }
 
     interface View {
@@ -50,6 +52,8 @@ public interface DetailsContract {
         void showNameError(String error);
 
         void showMessage(String message);
+
+        Observable<Object> onDeleteProfileClick();
 
         Observable<Object> onSaveProfileClick();
 

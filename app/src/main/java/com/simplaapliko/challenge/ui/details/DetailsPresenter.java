@@ -81,11 +81,11 @@ public class DetailsPresenter implements DetailsContract.Presenter {
                     .flatMapCompletable(
                             profileViewModel -> repository.addProfile(profileViewModel.toProfile()))
                     .compose(rxSchedulers.getIoToMainTransformerCompletable())
-                    .subscribe(this::handleAddUpdateProfileSuccess, this::handleAddProfileError);
+                    .subscribe(this::handleModifyProfileSuccess, this::handleAddProfileError);
             disposables.add(addProfile);
         } else {
             if (profile.getHobbies().equals(view.getHobbies())) {
-                handleAddUpdateProfileSuccess();
+                handleModifyProfileSuccess();
                 return;
             }
 
@@ -93,12 +93,12 @@ public class DetailsPresenter implements DetailsContract.Presenter {
 
             Disposable updateProfile = repository.updateProfile(profile.toProfile())
                     .compose(rxSchedulers.getIoToMainTransformerCompletable())
-                    .subscribe(this::handleAddUpdateProfileSuccess, this::handleUpdateProfileError);
+                    .subscribe(this::handleModifyProfileSuccess, this::handleUpdateProfileError);
             disposables.add(updateProfile);
         }
     }
 
-    private void handleAddUpdateProfileSuccess() {
+    private void handleModifyProfileSuccess() {
         navigator.goBack();
     }
 
@@ -139,5 +139,25 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     @Override
     public void destroy() {
 
+    }
+
+    @Override
+    public void bindMenu() {
+        Disposable deleteProfile = view.onDeleteProfileClick()
+                .observeOn(rxSchedulers.getMainThreadScheduler())
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(o -> handleDeleteProfileAction(), throwable -> handleUnknownError());
+        disposables.add(deleteProfile);
+    }
+
+    private void handleDeleteProfileAction() {
+        Disposable deleteProfile = repository.deleteProfile(profile.toProfile())
+                .compose(rxSchedulers.getIoToMainTransformerCompletable())
+                .subscribe(this::handleModifyProfileSuccess, this::handleDeleteProfileError);
+        disposables.add(deleteProfile);
+    }
+
+    private void handleDeleteProfileError(Throwable throwable) {
+        view.showMessage(errorMessageFactory.getGenericErrorMessage());
     }
 }
