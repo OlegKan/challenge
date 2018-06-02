@@ -17,7 +17,7 @@
 package com.simplaapliko.challenge.ui.details.validation;
 
 import com.simplaapliko.challenge.domain.model.Profile;
-import com.simplaapliko.challenge.ui.details.ProfileViewModel;
+import com.simplaapliko.challenge.ui.details.ProfileModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import io.reactivex.exceptions.Exceptions;
 
 public class ProfileModelValidator {
 
-    public Single<ProfileViewModel> validate(ProfileViewModel model) {
+    public Single<ProfileModel> validate(ProfileModel model) {
         return Single.just(model)
                 .map(this::validateProfileModel)
                 .map(validatedProfileModel -> {
@@ -42,7 +42,7 @@ public class ProfileModelValidator {
 
     }
 
-    private ValidatedProfileModel validateProfileModel(ProfileViewModel model) {
+    private ValidatedProfileModel validateProfileModel(ProfileModel model) {
         List<ProfileValidationErrorModel> errors = new ArrayList<>();
 
         ProfileValidationErrorModel ageError = validateAge(model.getAge());

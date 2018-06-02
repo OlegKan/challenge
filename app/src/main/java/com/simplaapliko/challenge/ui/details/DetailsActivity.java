@@ -54,7 +54,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         return new Intent(context, DetailsActivity.class);
     }
 
-    public static Intent getStartIntent(Context context, ProfileViewModel profile) {
+    public static Intent getStartIntent(Context context, ProfileModel profile) {
         Intent intent = new Intent(context, DetailsActivity.class);
         intent.putExtra(EXTRA_PROFILE, profile);
         return intent;
@@ -102,7 +102,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     protected void injectDependencies(ApplicationComponent applicationComponent) {
         DetailsComponent screenComponent = SCREEN_COMPONENT_CACHE.get(screenSessionId);
         if (screenComponent == null) {
-            ProfileViewModel profile = getIntent().getParcelableExtra(EXTRA_PROFILE);
+            ProfileModel profile = getIntent().getParcelableExtra(EXTRA_PROFILE);
 
             screenComponent = applicationComponent.plus(new DetailsComponent.Module(this, profile));
             SCREEN_COMPONENT_CACHE.put(screenSessionId, screenComponent);
@@ -162,7 +162,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     }
 
     @Override
-    public void displayProfile(ProfileViewModel profile) {
+    public void displayProfile(ProfileModel profile) {
         ageText.setText(String.valueOf(profile.getAge()));
         hobbiesText.setText(profile.getHobbies());
         nameText.setText(profile.getName());

@@ -20,7 +20,7 @@ import android.content.Intent;
 
 import com.simplaapliko.challenge.domain.model.Profile;
 import com.simplaapliko.challenge.ui.details.DetailsActivity;
-import com.simplaapliko.challenge.ui.details.ProfileViewModel;
+import com.simplaapliko.challenge.ui.details.ProfileModel;
 
 public class OverviewNavigator implements OverviewContract.Navigator {
 
@@ -38,7 +38,7 @@ public class OverviewNavigator implements OverviewContract.Navigator {
 
     @Override
     public void goToEditProfileScreen(Profile model) {
-        Intent intent = DetailsActivity.getStartIntent(activity, new ProfileViewModel(model));
+        Intent intent = DetailsActivity.getStartIntent(activity, new ProfileModel(model));
         activity.startActivity(intent);
     }
 }

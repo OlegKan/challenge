@@ -21,17 +21,17 @@ import android.os.Parcelable;
 
 import com.simplaapliko.challenge.domain.model.Profile;
 
-public class ProfileViewModel implements Parcelable {
+public class ProfileModel implements Parcelable {
 
-    public static final Creator<ProfileViewModel> CREATOR = new Creator<ProfileViewModel>() {
+    public static final Creator<ProfileModel> CREATOR = new Creator<ProfileModel>() {
         @Override
-        public ProfileViewModel createFromParcel(Parcel in) {
-            return new ProfileViewModel(in);
+        public ProfileModel createFromParcel(Parcel in) {
+            return new ProfileModel(in);
         }
 
         @Override
-        public ProfileViewModel[] newArray(int size) {
-            return new ProfileViewModel[size];
+        public ProfileModel[] newArray(int size) {
+            return new ProfileModel[size];
         }
     };
 
@@ -43,14 +43,14 @@ public class ProfileViewModel implements Parcelable {
     private String imagePath;
     private String hobbies;
 
-    public ProfileViewModel() {
+    public ProfileModel() {
         isNew = true;
         name = "";
         imagePath = "";
         hobbies = "";
     }
 
-    public ProfileViewModel(Profile profile) {
+    public ProfileModel(Profile profile) {
         isNew = false;
         id = profile.getId();
         gender = profile.getGender();
@@ -60,7 +60,7 @@ public class ProfileViewModel implements Parcelable {
         hobbies = profile.getHobbies();
     }
 
-    protected ProfileViewModel(Parcel in) {
+    protected ProfileModel(Parcel in) {
         isNew = in.readByte() != 0;
         id = in.readInt();
         gender = in.readInt();
@@ -151,7 +151,7 @@ public class ProfileViewModel implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProfileViewModel that = (ProfileViewModel) o;
+        ProfileModel that = (ProfileModel) o;
 
         if (isNew != that.isNew) return false;
         if (id != that.id) return false;
@@ -177,7 +177,7 @@ public class ProfileViewModel implements Parcelable {
 
     @Override
     public String toString() {
-        return "ProfileViewModel{" + "isNew=" + isNew + ", id=" + id + ", gender=" + gender + ", " +
+        return "ProfileModel{" + "isNew=" + isNew + ", id=" + id + ", gender=" + gender + ", " +
                 "name='" + name + '\'' + ", age=" + age + ", imagePath='" + imagePath + '\'' + "," +
                 " hobbies='" + hobbies + '\'' + '}';
     }

@@ -33,7 +33,7 @@ public interface DetailsContract {
     }
 
     interface View {
-        void displayProfile(ProfileViewModel profile);
+        void displayProfile(ProfileModel profile);
 
         void setFormEnabled(boolean enabled);
 

@@ -35,16 +35,16 @@ public interface DetailsComponent {
     class Module {
 
         private final DetailsActivity activity;
-        private final ProfileViewModel profile;
+        private final ProfileModel profile;
 
-        public Module(DetailsActivity activity, ProfileViewModel profile) {
+        public Module(DetailsActivity activity, ProfileModel profile) {
             this.activity = activity;
             this.profile = safeCheck(profile);
         }
 
-        private ProfileViewModel safeCheck(ProfileViewModel profile) {
+        private ProfileModel safeCheck(ProfileModel profile) {
             if (profile == null) {
-                return new ProfileViewModel();
+                return new ProfileModel();
             }
             return profile;
         }

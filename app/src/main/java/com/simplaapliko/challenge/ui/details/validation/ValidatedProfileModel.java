@@ -16,21 +16,21 @@
 
 package com.simplaapliko.challenge.ui.details.validation;
 
-import com.simplaapliko.challenge.ui.details.ProfileViewModel;
+import com.simplaapliko.challenge.ui.details.ProfileModel;
 
 import java.util.List;
 
 public class ValidatedProfileModel {
-    private ProfileViewModel profileModel;
+    private ProfileModel profileModel;
     private List<ProfileValidationErrorModel> errors;
 
-    public ValidatedProfileModel(ProfileViewModel profileModel,
+    public ValidatedProfileModel(ProfileModel profileModel,
             List<ProfileValidationErrorModel> errors) {
         this.profileModel = profileModel;
         this.errors = errors;
     }
 
-    public ProfileViewModel getProfileModel() {
+    public ProfileModel getProfileModel() {
         return profileModel;
     }
 

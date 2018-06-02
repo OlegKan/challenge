@@ -37,14 +37,14 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     private final ErrorMessageFactory errorMessageFactory;
     private final DetailsContract.View view;
     private final DetailsContract.Navigator navigator;
-    private final ProfileViewModel profile;
+    private final ProfileModel profile;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     DetailsPresenter(RxSchedulers rxSchedulers, ProfileRepository repository,
             ProfileModelValidator validator, ErrorMessageFactory errorMessageFactory,
             DetailsContract.View view, DetailsContract.Navigator navigator,
-            ProfileViewModel profile) {
+            ProfileModel profile) {
         this.rxSchedulers = rxSchedulers;
         this.repository = repository;
         this.validator = validator;
@@ -79,7 +79,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
 
             Disposable addProfile = validator.validate(profile)
                     .flatMapCompletable(
-                            profileViewModel -> repository.addProfile(profileViewModel.toProfile()))
+                            profileModel -> repository.addProfile(profileModel.toProfile()))
                     .compose(rxSchedulers.getIoToMainTransformerCompletable())
                     .subscribe(this::handleModifyProfileSuccess, this::handleAddProfileError);
             disposables.add(addProfile);
