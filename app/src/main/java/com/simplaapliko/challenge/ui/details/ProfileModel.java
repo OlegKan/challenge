@@ -118,6 +118,10 @@ public class ProfileModel implements Parcelable {
         return age;
     }
 
+    public String getFormattedAge() {
+        return age == 0 ? "" : String.valueOf(age);
+    }
+
     public void setAge(int age) {
         this.age = age;
     }

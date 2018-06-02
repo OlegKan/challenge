@@ -163,8 +163,9 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
     @Override
     public void displayProfile(ProfileModel profile) {
-        ageText.setText(String.valueOf(profile.getAge()));
+        ageText.setText(profile.getFormattedAge());
         hobbiesText.setText(profile.getHobbies());
+        hobbiesText.setSelection(profile.getHobbies().length(), profile.getHobbies().length());
         nameText.setText(profile.getName());
         nameText.setSelection(profile.getName().length(), profile.getName().length());
         genderSpinner.setSelection(profile.getGender());
