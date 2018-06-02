@@ -17,7 +17,9 @@
 package com.simplaapliko.challenge.ui.overview;
 
 import com.simplaapliko.challenge.MockFactory;
+import com.simplaapliko.challenge.domain.model.Filter;
 import com.simplaapliko.challenge.domain.model.Profile;
+import com.simplaapliko.challenge.domain.model.SortOrder;
 import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 import com.simplaapliko.challenge.rx.RxSchedulers;
 import com.simplaapliko.challenge.rx.TestRxSchedulers;
@@ -51,7 +53,9 @@ public class OverviewPresenterTest {
     @Before
     public void setUp() {
         when(mockView.onAddProfileClick()).thenReturn(Observable.just(new Object()));
+        when(mockView.onFilterChange()).thenReturn(Observable.just(Filter.ALL));
         when(mockView.onShowProfileClick()).thenReturn(Observable.just(MockFactory.newProfile()));
+        when(mockView.onSortOrderChange()).thenReturn(Observable.just(SortOrder.ID_ASC));
 
         RxSchedulers rxSchedulers = new TestRxSchedulers();
         presenter = new OverviewPresenter(rxSchedulers, mockRepository, mockView, mockNavigator);
@@ -60,11 +64,14 @@ public class OverviewPresenterTest {
     @Test
     public void init() {
         List<Profile> profiles = new ArrayList<>();
-        when(mockRepository.getAllProfiles()).thenReturn(Single.just(profiles));
+        when(mockRepository.getProfiles(any(Filter.class), any(SortOrder.class))).thenReturn(
+                Single.just(profiles));
         when(mockRepository.observeProfilesChanges()).thenReturn(Observable.never());
 
         presenter.init();
 
+        // verify default filter and sort order
+        verify(mockRepository, times(1)).getProfiles(Filter.ALL, SortOrder.ID_ASC);
         verify(mockView, times(1)).displayProfiles(profiles);
         verify(mockView, never()).showMessage(any());
     }

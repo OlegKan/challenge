@@ -18,6 +18,16 @@
     <string name="app_name">Challenge</string>
 
     <string name="action_delete">Delete</string>
+    <string name="action_filter">Filter</string>
+    <string name="action_filter_female">Female</string>
+    <string name="action_filter_male">Male</string>
+    <string name="action_filter_show_all">Show All</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_sort_default">Id (asc)</string>
+    <string name="action_sort_by_age_asc">Age (asc)</string>
+    <string name="action_sort_by_age_desc">Age (desc)</string>
+    <string name="action_sort_by_name_asc">Name (asc)</string>
+    <string name="action_sort_by_name_desc">Name (desc)</string>
 
     <string name="profile_age">Age</string>
     <string name="profile_gender">Gender</string>

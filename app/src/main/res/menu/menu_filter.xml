@@ -15,14 +15,26 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.simplaapliko.challenge.ui.details.DetailsActivity">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
     <item
-        android:id="@+id/action_delete"
-        android:icon="@drawable/ic_delete"
+        android:id="@+id/action_filter_show_all"
         android:orderInCategory="100"
-        android:title="@string/action_delete"
-        app:showAsAction="always" />
+        android:title="@string/action_filter_show_all"
+        />
+
+    <item
+        android:id="@+id/action_filter_female"
+        android:orderInCategory="200"
+        android:title="@string/action_filter_female"
+        />
+
+    <item
+        android:id="@+id/action_filter_male"
+        android:orderInCategory="300"
+        android:title="@string/action_filter_male"
+        />
+
 </menu>

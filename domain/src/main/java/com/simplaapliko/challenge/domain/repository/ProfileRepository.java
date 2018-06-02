@@ -16,8 +16,10 @@
 
 package com.simplaapliko.challenge.domain.repository;
 
+import com.simplaapliko.challenge.domain.model.Filter;
 import com.simplaapliko.challenge.domain.model.Pair;
 import com.simplaapliko.challenge.domain.model.Profile;
+import com.simplaapliko.challenge.domain.model.SortOrder;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ import io.reactivex.Single;
 
 public interface ProfileRepository {
 
-    Single<List<Profile>> getAllProfiles();
+    Single<List<Profile>> getProfiles(Filter filter, SortOrder sortOrder);
 
     Observable<Pair<Profile, Integer>> observeProfilesChanges();
 

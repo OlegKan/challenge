@@ -18,11 +18,15 @@ package com.simplaapliko.challenge.data;
 
 import android.support.annotation.NonNull;
 
+import com.simplaapliko.challenge.domain.model.Filter;
 import com.simplaapliko.challenge.domain.model.Pair;
 import com.simplaapliko.challenge.domain.model.Profile;
+import com.simplaapliko.challenge.domain.model.ProfileComparator;
+import com.simplaapliko.challenge.domain.model.SortOrder;
 import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -39,10 +43,22 @@ public class MockProfileRepository implements ProfileRepository {
     private PublishSubject<Pair<Profile, Integer>> subject = PublishSubject.create();
 
     @Override
-    public Single<List<Profile>> getAllProfiles() {
+    public Single<List<Profile>> getProfiles(Filter filter, SortOrder sortOrder) {
         return Maybe.concat(getCachedProfiles(), getLiveProfiles())
                 .filter(profiles -> !profiles.isEmpty())
-                .first(new ArrayList<>());
+                .first(new ArrayList<>())
+                .toObservable()
+                .flatMapIterable(profiles -> profiles)
+                .filter(profile -> {
+                    if (filter == Filter.ALL) {
+                        return true;
+                    } else if (filter == Filter.FEMALE) {
+                        return profile.isFemale();
+                    } else {
+                        return profile.isMale();
+                    }
+                })
+                .toSortedList(getComparator(sortOrder));
     }
 
     @Override
@@ -80,6 +96,31 @@ public class MockProfileRepository implements ProfileRepository {
             }
             return Completable.complete();
         });
+    }
+
+    private @NonNull Comparator<Profile> getComparator(SortOrder sortOrder) {
+        Comparator<Profile> comparator;
+        switch (sortOrder) {
+            case ID_ASC:
+                comparator = new ProfileComparator.IdAsc();
+                break;
+            case AGE_ASC:
+                comparator = new ProfileComparator.AgeAsc();
+                break;
+            case AGE_DESC:
+                comparator = new ProfileComparator.AgeDesc();
+                break;
+            case NAME_ASC:
+                comparator = new ProfileComparator.NameAsc();
+                break;
+            case NAME_DESC:
+                comparator = new ProfileComparator.NameDesc();
+                break;
+            default:
+                comparator = new ProfileComparator.IdAsc();
+                break;
+        }
+        return comparator;
     }
 
     private Observable<Pair<Profile, Integer>> observeAddedProfiles() {
@@ -125,7 +166,7 @@ public class MockProfileRepository implements ProfileRepository {
 
     private List<Profile> generateProfiles(int count) {
         List<Profile> profiles = new ArrayList<>();
-        for (int i = 1; i <= count; i++) {
+        for (int i = 14; i <= 14 + count; i++) {
             Profile profile = generateProfile(i);
             profiles.add(profile);
         }
@@ -137,15 +178,15 @@ public class MockProfileRepository implements ProfileRepository {
 
         String name;
         if (gender == Profile.GENDER_FEMALE) {
-            name = "Anna";
+            name = "Anna " + id;
         } else {
-            name = "Jack";
+            name = "Jack " + id;
         }
 
         String hobbies = "running, reading, travelling, photography, coding, music, fishing, " +
                 "cycling, yoga, hiking, scuba diving";
 
-        return new Profile(id, gender, name, 40, "", hobbies);
+        return new Profile(id, gender, name, id, "", hobbies);
     }
 
     private Profile generateNewProfile(int id) {

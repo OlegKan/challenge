@@ -16,8 +16,10 @@
 
 package com.simplaapliko.challenge.ui.overview;
 
+import com.simplaapliko.challenge.domain.model.Filter;
 import com.simplaapliko.challenge.domain.model.Pair;
 import com.simplaapliko.challenge.domain.model.Profile;
+import com.simplaapliko.challenge.domain.model.SortOrder;
 import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 import com.simplaapliko.challenge.rx.RxSchedulers;
 
@@ -35,6 +37,8 @@ public class OverviewPresenter implements OverviewContract.Presenter {
     private final OverviewContract.Navigator navigator;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
+    private Disposable getProfilesDisposable;
+    private Disposable profilesChangesDisposable;
 
     OverviewPresenter(RxSchedulers rxSchedulers, ProfileRepository repository,
             OverviewContract.View view, OverviewContract.Navigator navigator) {
@@ -48,11 +52,19 @@ public class OverviewPresenter implements OverviewContract.Presenter {
     public void init() {
         bindView();
 
-        Disposable getAllProfiles = repository.getAllProfiles()
+        refreshData(Filter.ALL, SortOrder.ID_ASC);
+    }
+
+    private void refreshData(Filter filter, SortOrder sortOrder) {
+        if (getProfilesDisposable != null && !getProfilesDisposable.isDisposed()) {
+            getProfilesDisposable.dispose();
+            disposables.delete(getProfilesDisposable);
+        }
+        getProfilesDisposable = repository.getProfiles(filter, sortOrder)
                 .compose(rxSchedulers.getComputationToMainTransformerSingle())
                 .doFinally(this::startObservingProfilesChanges)
                 .subscribe(this::handleGetAllProfileSuccess, this::handleGetProfileError);
-        disposables.add(getAllProfiles);
+        disposables.add(getProfilesDisposable);
     }
 
     private void handleGetAllProfileSuccess(List<Profile> data) {
@@ -60,10 +72,14 @@ public class OverviewPresenter implements OverviewContract.Presenter {
     }
 
     private void startObservingProfilesChanges() {
-        Disposable observe = repository.observeProfilesChanges()
+        if (profilesChangesDisposable != null && !profilesChangesDisposable.isDisposed()) {
+            profilesChangesDisposable.dispose();
+            disposables.delete(profilesChangesDisposable);
+        }
+        profilesChangesDisposable = repository.observeProfilesChanges()
                 .compose(rxSchedulers.getComputationToMainTransformer())
                 .subscribe(this::handleObserveChangesSuccess, this::handleGetProfileError);
-        disposables.add(observe);
+        disposables.add(profilesChangesDisposable);
     }
 
     private void handleObserveChangesSuccess(Pair<Profile, Integer> data) {
@@ -81,6 +97,18 @@ public class OverviewPresenter implements OverviewContract.Presenter {
     }
 
     private void bindView() {
+        Disposable filter = view.onFilterChange()
+                .observeOn(rxSchedulers.getMainThreadScheduler())
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(this::handleSelectFilterAction, throwable -> handleUnknownError());
+        disposables.add(filter);
+
+        Disposable sort = view.onSortOrderChange()
+                .observeOn(rxSchedulers.getMainThreadScheduler())
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(this::handleSelectSortOrderAction, throwable -> handleUnknownError());
+        disposables.add(sort);
+
         Disposable addProfile = view.onAddProfileClick()
                 .observeOn(rxSchedulers.getMainThreadScheduler())
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
@@ -92,6 +120,14 @@ public class OverviewPresenter implements OverviewContract.Presenter {
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .subscribe(this::handleShowProfileAction, throwable -> handleUnknownError());
         disposables.add(showProfile);
+    }
+
+    private void handleSelectFilterAction(Filter filter) {
+        refreshData(filter, view.getSelectedSortOrder());
+    }
+
+    private void handleSelectSortOrderAction(SortOrder sortOrder) {
+        refreshData(view.getSelectedFilter(), sortOrder);
     }
 
     @Override

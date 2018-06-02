@@ -16,7 +16,9 @@
 
 package com.simplaapliko.challenge.ui.overview;
 
+import com.simplaapliko.challenge.domain.model.Filter;
 import com.simplaapliko.challenge.domain.model.Profile;
+import com.simplaapliko.challenge.domain.model.SortOrder;
 
 import java.util.List;
 
@@ -47,7 +49,15 @@ public interface OverviewContract {
 
         void showMessage(String message);
 
+        Filter getSelectedFilter();
+
+        SortOrder getSelectedSortOrder();
+
         Observable<Object> onAddProfileClick();
+
+        Observable<Filter> onFilterChange();
+
+        Observable<SortOrder> onSortOrderChange();
 
         Observable<Profile> onShowProfileClick();
     }
