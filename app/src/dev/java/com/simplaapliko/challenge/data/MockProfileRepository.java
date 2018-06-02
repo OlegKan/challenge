@@ -98,7 +98,7 @@ public class MockProfileRepository implements ProfileRepository {
     }
 
     private Profile generateProfile(int id) {
-        int gender = id % 2;
+        int gender = id % 2 + 1;
 
         String name;
         if (gender == Profile.GENDER_FEMALE) {

@@ -39,6 +39,14 @@
             />
 
         <activity
+            android:name=".ui.details.DetailsActivity"
+            android:label="@string/activity_details"
+            android:parentActivityName=".ui.overview.OverviewActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            />
+
+        <activity
             android:name=".ui.LauncherActivity"
             android:theme="@style/AppTheme.Launcher"
             />

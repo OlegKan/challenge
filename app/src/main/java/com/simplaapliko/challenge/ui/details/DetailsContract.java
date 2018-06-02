@@ -14,20 +14,29 @@
  * limitations under the License.
  */
 
-package com.simplaapliko.challenge.di;
+package com.simplaapliko.challenge.ui.details;
 
-import com.simplaapliko.challenge.App;
-import com.simplaapliko.challenge.ui.details.DetailsComponent;
-import com.simplaapliko.challenge.ui.overview.OverviewComponent;
+import io.reactivex.Observable;
 
-import dagger.Component;
+public interface DetailsContract {
 
-@ApplicationScope
-@Component(modules = {ApplicationModule.class, DataModule.class, UtilsModule.class})
-public interface ApplicationComponent {
-    void inject(App app);
+    interface Navigator {
+        void goBack();
+    }
 
-    DetailsComponent plus(DetailsComponent.Module module);
+    interface Presenter {
+        void init();
 
-    OverviewComponent plus(OverviewComponent.Module module);
+        void destroy();
+    }
+
+    interface View {
+        void displayProfile(ProfileViewModel profile);
+
+        void setFormEnabled(boolean enabled);
+
+        Observable<Object> onSaveProfileClick();
+
+        Observable<Object> onSelectImageClick();
+    }
 }

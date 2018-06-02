@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package com.simplaapliko.challenge.di;
+package com.simplaapliko.challenge.ui.details;
 
-import com.simplaapliko.challenge.App;
-import com.simplaapliko.challenge.ui.details.DetailsComponent;
-import com.simplaapliko.challenge.ui.overview.OverviewComponent;
+public class DetailsNavigator implements DetailsContract.Navigator {
 
-import dagger.Component;
+    private final DetailsActivity activity;
 
-@ApplicationScope
-@Component(modules = {ApplicationModule.class, DataModule.class, UtilsModule.class})
-public interface ApplicationComponent {
-    void inject(App app);
+    DetailsNavigator(DetailsActivity activity) {
+        this.activity = activity;
+    }
 
-    DetailsComponent plus(DetailsComponent.Module module);
-
-    OverviewComponent plus(OverviewComponent.Module module);
+    @Override
+    public void goBack() {
+        activity.finish();
+    }
 }

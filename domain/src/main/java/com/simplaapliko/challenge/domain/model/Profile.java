@@ -21,8 +21,8 @@ public class Profile {
     public static final int AGE_MIN = 0;
     public static final int AGE_MAX = 125;
 
-    public static final int GENDER_FEMALE = 0;
-    public static final int GENDER_MALE = 1;
+    public static final int GENDER_FEMALE = 1;
+    public static final int GENDER_MALE = 2;
 
     private final int id;
     private final int gender;

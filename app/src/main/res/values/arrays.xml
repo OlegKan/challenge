@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (C) 2018 Oleg Kan
   ~
@@ -15,13 +16,11 @@
   -->
 
 <resources>
-    <string name="app_name">Challenge</string>
 
-    <string name="profile_age">Age</string>
-    <string name="profile_gender">Gender</string>
-    <string name="profile_hobbies">Hobbies</string>
-    <string name="profile_name">Name</string>
+    <string-array name="genders">
+        <item>Gender</item>
+        <item>Female</item>
+        <item>Male</item>
+    </string-array>
 
-    <string name="activity_details">Details</string>
-    <string name="activity_overview">Profiles</string>
 </resources>

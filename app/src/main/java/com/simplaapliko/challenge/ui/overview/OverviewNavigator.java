@@ -16,9 +16,11 @@
 
 package com.simplaapliko.challenge.ui.overview;
 
-import android.widget.Toast;
+import android.content.Intent;
 
 import com.simplaapliko.challenge.domain.model.Profile;
+import com.simplaapliko.challenge.ui.details.DetailsActivity;
+import com.simplaapliko.challenge.ui.details.ProfileViewModel;
 
 public class OverviewNavigator implements OverviewContract.Navigator {
 
@@ -30,13 +32,13 @@ public class OverviewNavigator implements OverviewContract.Navigator {
 
     @Override
     public void goToAddProfileScreen() {
-        Toast.makeText(activity, "add profile clicked", Toast.LENGTH_SHORT)
-                .show();
+        Intent intent = DetailsActivity.getStartIntent(activity);
+        activity.startActivity(intent);
     }
 
     @Override
     public void goToEditProfileScreen(Profile model) {
-        Toast.makeText(activity, "profile clicked", Toast.LENGTH_SHORT)
-                .show();
+        Intent intent = DetailsActivity.getStartIntent(activity, new ProfileViewModel(model));
+        activity.startActivity(intent);
     }
 }
