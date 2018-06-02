@@ -14,26 +14,19 @@
  * limitations under the License.
  */
 
-package com.simplaapliko.challenge.domain.repository;
+package com.simplaapliko.challenge.ui.details.validation;
 
-import com.simplaapliko.challenge.domain.model.Pair;
-import com.simplaapliko.challenge.domain.model.Profile;
-
+import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
+public class ProfileValidationException extends RuntimeException {
+    private List<ProfileValidationErrorModel> errors = new ArrayList<>();
 
-public interface ProfileRepository {
+    public ProfileValidationException(List<ProfileValidationErrorModel> errors) {
+        this.errors = errors;
+    }
 
-    Single<List<Profile>> getAllProfiles();
-
-    Observable<Pair<Profile, Integer>> observeProfilesChanges();
-
-    Completable addProfile(Profile profile);
-
-    Completable deleteProfile(Profile profile);
-
-    Completable updateProfile(Profile profile);
+    public List<ProfileValidationErrorModel> getErrors() {
+        return errors;
+    }
 }

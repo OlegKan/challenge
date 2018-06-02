@@ -138,6 +138,14 @@ public class ProfileViewModel implements Parcelable {
         this.hobbies = hobbies;
     }
 
+    public Profile toProfile() {
+        //TODO
+        if (isNew) {
+            id = (int) (System.currentTimeMillis() / 10000);
+        }
+        return new Profile(id, gender, name, age, imagePath, hobbies);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

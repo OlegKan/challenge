@@ -18,7 +18,7 @@ package com.simplaapliko.challenge.domain.model;
 
 public class Profile {
 
-    public static final int AGE_MIN = 0;
+    public static final int AGE_MIN = 14;
     public static final int AGE_MAX = 125;
 
     public static final int GENDER_FEMALE = 1;
@@ -30,6 +30,18 @@ public class Profile {
     private final int age;
     private final String imagePath;
     private final String hobbies;
+
+    public static void validateAge(int value) {
+        if (value < AGE_MIN || value > AGE_MAX) {
+            throw new IllegalArgumentException("invalid age: " + value);
+        }
+    }
+
+    public static void validateGender(int value) {
+        if (value < GENDER_FEMALE || value > GENDER_MALE) {
+            throw new IllegalArgumentException("invalid gender: " + value);
+        }
+    }
 
     public Profile(int id, int gender, String name, int age, String imagePath, String hobbies) {
         validateAge(age);
@@ -73,18 +85,6 @@ public class Profile {
 
     public String getHobbies() {
         return hobbies;
-    }
-
-    private void validateAge(int value) {
-        if (value < AGE_MIN || value > AGE_MAX) {
-            throw new IllegalArgumentException("invalid age: " + value);
-        }
-    }
-
-    private void validateGender(int value) {
-        if (value < GENDER_FEMALE || value > GENDER_MALE) {
-            throw new IllegalArgumentException("invalid gender: " + value);
-        }
     }
 
     @Override

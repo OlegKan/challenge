@@ -35,6 +35,22 @@ public interface DetailsContract {
 
         void setFormEnabled(boolean enabled);
 
+        String getAge();
+
+        int getGender();
+
+        String getHobbies();
+
+        String getName();
+
+        void showAgeError(String error);
+
+        void showGenderError(String error);
+
+        void showNameError(String error);
+
+        void showMessage(String message);
+
         Observable<Object> onSaveProfileClick();
 
         Observable<Object> onSelectImageClick();

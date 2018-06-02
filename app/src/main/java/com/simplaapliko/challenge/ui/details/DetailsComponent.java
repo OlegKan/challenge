@@ -19,6 +19,8 @@ package com.simplaapliko.challenge.ui.details;
 import com.simplaapliko.challenge.di.ActivityScope;
 import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 import com.simplaapliko.challenge.rx.RxSchedulers;
+import com.simplaapliko.challenge.ui.details.validation.ErrorMessageFactory;
+import com.simplaapliko.challenge.ui.details.validation.ProfileModelValidator;
 
 import dagger.Provides;
 import dagger.Subcomponent;
@@ -56,9 +58,11 @@ public interface DetailsComponent {
         @Provides
         @ActivityScope
         DetailsContract.Presenter provideDetailsPresenter(RxSchedulers rxSchedulers,
-                ProfileRepository repository, DetailsContract.View view,
+                ProfileRepository repository, ProfileModelValidator validator,
+                ErrorMessageFactory errorMessageFactory, DetailsContract.View view,
                 DetailsContract.Navigator navigator) {
-            return new DetailsPresenter(rxSchedulers, repository, view, navigator, profile);
+            return new DetailsPresenter(rxSchedulers, repository, validator, errorMessageFactory,
+                    view, navigator, profile);
         }
 
         @Provides

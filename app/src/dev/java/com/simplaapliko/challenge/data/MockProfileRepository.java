@@ -26,13 +26,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.subjects.PublishSubject;
 
 public class MockProfileRepository implements ProfileRepository {
 
     @NonNull private List<Profile> profilesCache = new ArrayList<>();
+
+    private PublishSubject<Pair<Profile, Integer>> subject = PublishSubject.create();
 
     @Override
     public Single<List<Profile>> getAllProfiles() {
@@ -44,7 +48,38 @@ public class MockProfileRepository implements ProfileRepository {
     @Override
     public Observable<Pair<Profile, Integer>> observeProfilesChanges() {
         return Observable.merge(observeAddedProfiles(), observeDeletedProfiles(),
-                observeUpdatedProfiles());
+                observeUpdatedProfiles(), subject);
+    }
+
+    @Override
+    public Completable addProfile(Profile profile) {
+        return Completable.defer(() -> {
+            profilesCache.add(profile);
+            subject.onNext(new Pair<>(profile, 0));
+            return Completable.complete();
+        });
+    }
+
+    @Override
+    public Completable deleteProfile(Profile profile) {
+        return Completable.defer(() -> {
+            profilesCache.remove(profile);
+            subject.onNext(new Pair<>(profile, 1));
+            return Completable.complete();
+        });
+    }
+
+    @Override
+    public Completable updateProfile(Profile profile) {
+        return Completable.defer(() -> {
+            if (profilesCache.contains(profile)) {
+                int index = profilesCache.indexOf(profile);
+                profilesCache.remove(index);
+                profilesCache.add(index, profile);
+                subject.onNext(new Pair<>(profile, 2));
+            }
+            return Completable.complete();
+        });
     }
 
     private Observable<Pair<Profile, Integer>> observeAddedProfiles() {

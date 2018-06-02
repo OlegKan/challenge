@@ -14,26 +14,21 @@
  * limitations under the License.
  */
 
-package com.simplaapliko.challenge.domain.repository;
+package com.simplaapliko.challenge.ui.details.validation;
 
-import com.simplaapliko.challenge.domain.model.Pair;
-import com.simplaapliko.challenge.domain.model.Profile;
+public class ProfileValidationErrorModel {
 
-import java.util.List;
+    public enum Field {
+        AGE, GENDER, NAME
+    }
 
-import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
+    private Field field;
 
-public interface ProfileRepository {
+    public ProfileValidationErrorModel(Field field) {
+        this.field = field;
+    }
 
-    Single<List<Profile>> getAllProfiles();
-
-    Observable<Pair<Profile, Integer>> observeProfilesChanges();
-
-    Completable addProfile(Profile profile);
-
-    Completable deleteProfile(Profile profile);
-
-    Completable updateProfile(Profile profile);
+    public Field getField() {
+        return field;
+    }
 }

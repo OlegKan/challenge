@@ -16,14 +16,30 @@
 
 package com.simplaapliko.challenge.di;
 
+import android.content.Context;
+
 import com.simplaapliko.challenge.rx.AppRxSchedulers;
 import com.simplaapliko.challenge.rx.RxSchedulers;
+import com.simplaapliko.challenge.ui.details.validation.ErrorMessageFactory;
+import com.simplaapliko.challenge.ui.details.validation.ProfileModelValidator;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class UtilsModule {
+
+    @Provides
+    @ApplicationScope
+    static ErrorMessageFactory provideErrorMessageFactory(Context context) {
+        return new ErrorMessageFactory(context);
+    }
+
+    @Provides
+    @ApplicationScope
+    static ProfileModelValidator provideProfileModelValidator() {
+        return new ProfileModelValidator();
+    }
 
     @Provides
     @ApplicationScope

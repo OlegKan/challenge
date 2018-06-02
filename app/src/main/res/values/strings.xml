@@ -24,4 +24,10 @@
 
     <string name="activity_details">Details</string>
     <string name="activity_overview">Profiles</string>
+
+    <string name="error_unknown">Unknown error</string>
+    <string name="validation_error_profile_age">Age should be in range 14 : 125</string>
+    <string name="validation_error_profile_gender">Please select gender</string>
+    <string name="validation_error_profile_name">Name cannot be empty</string>
+
 </resources>

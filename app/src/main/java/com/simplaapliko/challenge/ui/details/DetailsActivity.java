@@ -27,6 +27,7 @@ import android.util.SparseArray;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.simplaapliko.challenge.R;
@@ -159,6 +160,51 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         ageText.setEnabled(enabled);
         nameText.setEnabled(enabled);
         genderSpinner.setEnabled(enabled);
+    }
+
+    @Override
+    public String getAge() {
+        return ageText.getText()
+                .toString();
+    }
+
+    @Override
+    public int getGender() {
+        return genderSpinner.getSelectedItemPosition();
+    }
+
+    @Override
+    public String getHobbies() {
+        return hobbiesText.getText()
+                .toString();
+    }
+
+    @Override
+    public String getName() {
+        return nameText.getText()
+                .toString();
+    }
+
+    @Override
+    public void showAgeError(String error) {
+        ageText.setError(error);
+    }
+
+    @Override
+    public void showGenderError(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT)
+                .show();
+    }
+
+    @Override
+    public void showNameError(String error) {
+        nameText.setError(error);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT)
+                .show();
     }
 
     @Override
