@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.application'
-
-def versionMajor = 0
-def versionMinor = 1
-def versionPatch = 0
-def versionBuild = 0
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion versions.compileSdk
 
     defaultConfig {
-        applicationId "com.simplaapliko.challenge"
-
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
-        versionCode versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        versionCode 1
+        versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -43,32 +37,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    flavorDimensions "default"
-    productFlavors {
-        dev {
-            resConfigs("xxhdpi")
-            applicationIdSuffix '.dev'
-            versionNameSuffix '-dev'
-        }
-        prod {
-        }
-    }
 }
 
 dependencies {
-    implementation project(path: ':data')
+    api project(path: ':domain')
 
     implementation deps.support.annotations
-    implementation deps.support.cardview
-    implementation deps.support.compat
-    implementation deps.support.design
 
-    implementation deps.dagger.dagger
-    annotationProcessor deps.dagger.compiler
-    compileOnly deps.javaxannotation
-
-    implementation deps.reactivex.rxbinding
     implementation deps.reactivex.rxjava2
 
     testImplementation deps.test.junit
