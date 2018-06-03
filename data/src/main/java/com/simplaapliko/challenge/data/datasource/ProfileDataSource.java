@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.simplaapliko.challenge.domain.repository;
+package com.simplaapliko.challenge.data.datasource;
 
 import com.simplaapliko.challenge.domain.model.Filter;
 import com.simplaapliko.challenge.domain.model.Pair;
@@ -27,7 +27,9 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
-public interface ProfileRepository {
+public interface ProfileDataSource {
+
+    String PATH_PROFILE = "profile";
 
     Single<List<Profile>> getProfiles(Filter filter, SortOrder sortOrder);
 

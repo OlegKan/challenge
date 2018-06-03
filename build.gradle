@@ -36,6 +36,11 @@ buildscript {
             dagger: "com.google.dagger:dagger:${versions.dagger}",
             compiler: "com.google.dagger:dagger-compiler:${versions.dagger}",
         ],
+        firebase: [
+            core: "com.google.firebase:firebase-core:16.0.0",
+            database: "com.google.firebase:firebase-database:16.0.1",
+        ],
+        googleservices: "com.google.gms:google-services:4.0.1",
         javaxannotation: "javax.annotation:jsr250-api:1.0",
         reactivex: [
             'rxbinding': "com.jakewharton.rxbinding2:rxbinding:2.1.1",
@@ -60,7 +65,7 @@ buildscript {
     }
     dependencies {
         classpath deps.android.gradlePlugin
-
+        classpath deps.googleservices
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

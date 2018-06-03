@@ -44,6 +44,8 @@ dependencies {
 
     implementation deps.support.annotations
 
+    implementation deps.firebase.database
+
     implementation deps.reactivex.rxjava2
 
     testImplementation deps.test.junit

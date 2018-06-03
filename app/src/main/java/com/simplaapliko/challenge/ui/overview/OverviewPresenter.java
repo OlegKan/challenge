@@ -76,7 +76,7 @@ public class OverviewPresenter implements OverviewContract.Presenter {
             profilesChangesDisposable.dispose();
             disposables.delete(profilesChangesDisposable);
         }
-        profilesChangesDisposable = repository.observeProfilesChanges()
+        profilesChangesDisposable = repository.observeProfilesChanges(view.getSelectedFilter())
                 .compose(rxSchedulers.getComputationToMainTransformer())
                 .subscribe(this::handleObserveChangesSuccess, this::handleGetProfileError);
         disposables.add(profilesChangesDisposable);

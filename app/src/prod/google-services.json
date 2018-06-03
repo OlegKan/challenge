@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "440959043597",
+    "firebase_url": "https://challenge-30d8b.firebaseio.com",
+    "project_id": "challenge-30d8b",
+    "storage_bucket": "challenge-30d8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440959043597:android:ea6ba5f5c6d80b82",
+        "android_client_info": {
+          "package_name": "com.simplaapliko.challenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440959043597-q1igqcn217tcloadj74sd3ki1eu5b5kj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.simplaapliko.challenge",
+            "certificate_hash": "560cb42c73f3be34c06ce70384805acc4dbe6e4d"
+          }
+        },
+        {
+          "client_id": "440959043597-e1sbnrfg9762c3a381tl42942ej6vrhr.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "440959043597-e1sbnrfg9762c3a381tl42942ej6vrhr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY938MsOT5fVHzgtKrYrAjGjvJHgK2v4s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440959043597-e1sbnrfg9762c3a381tl42942ej6vrhr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.simplaapliko.challenge.data;
+package com.simplaapliko.challenge.data.repository;
 
 import android.support.annotation.NonNull;
 
@@ -40,7 +40,7 @@ public class MockProfileRepository implements ProfileRepository {
 
     @NonNull private List<Profile> profilesCache = new ArrayList<>();
 
-    private PublishSubject<Pair<Profile, Integer>> subject = PublishSubject.create();
+    private final PublishSubject<Pair<Profile, Integer>> subject = PublishSubject.create();
 
     @Override
     public Single<List<Profile>> getProfiles(Filter filter, SortOrder sortOrder) {
@@ -62,7 +62,7 @@ public class MockProfileRepository implements ProfileRepository {
     }
 
     @Override
-    public Observable<Pair<Profile, Integer>> observeProfilesChanges() {
+    public Observable<Pair<Profile, Integer>> observeProfilesChanges(Filter filter) {
         return Observable.merge(observeAddedProfiles(), observeDeletedProfiles(),
                 observeUpdatedProfiles(), subject);
     }

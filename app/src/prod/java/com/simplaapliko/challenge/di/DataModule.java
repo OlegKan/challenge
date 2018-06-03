@@ -16,7 +16,9 @@
 
 package com.simplaapliko.challenge.di;
 
-import com.simplaapliko.challenge.data.repository.MockProfileRepository;
+import com.simplaapliko.challenge.data.datasource.ProfileDataSource;
+import com.simplaapliko.challenge.data.firebase.ProfileFirebaseDataSource;
+import com.simplaapliko.challenge.data.repository.ProfileDataRepository;
 import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 
 import dagger.Module;
@@ -27,7 +29,13 @@ class DataModule {
 
     @Provides
     @ApplicationScope
-    ProfileRepository provideProfileRepository() {
-        return new MockProfileRepository();
+    ProfileDataSource provideProfileDataSource() {
+        return new ProfileFirebaseDataSource();
+    }
+
+    @Provides
+    @ApplicationScope
+    ProfileRepository provideProfileRepository(ProfileDataSource dataSource) {
+        return new ProfileDataRepository(dataSource);
     }
 }

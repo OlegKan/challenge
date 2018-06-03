@@ -145,7 +145,7 @@ public class ProfileModel implements Parcelable {
     public Profile toProfile() {
         //TODO
         if (isNew) {
-            id = (int) (System.currentTimeMillis() / 10000);
+            id = (int) (System.currentTimeMillis() / 1000);
         }
         return new Profile(id, gender, name, age, imagePath, hobbies);
     }
