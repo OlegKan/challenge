@@ -18,6 +18,7 @@ package com.simplaapliko.challenge.ui.details;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
@@ -36,10 +37,12 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.simplaapliko.challenge.R;
 import com.simplaapliko.challenge.di.ApplicationComponent;
 import com.simplaapliko.challenge.ui.base.BaseActivity;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 public class DetailsActivity extends BaseActivity implements DetailsContract.View {
 
@@ -49,6 +52,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     private static final SparseArray<DetailsComponent> SCREEN_COMPONENT_CACHE = new SparseArray<>();
     private static int sScreenSessionCounter;
     private int screenSessionId;
+
+    private boolean isNew = true;
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, DetailsActivity.class);
@@ -70,6 +75,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     private FloatingActionButton saveFab;
 
     private Observable<Object> deleteProfileObservable;
+    private PublishSubject<String> imageSelectedObservable = PublishSubject.create();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,12 +118,15 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_details, menu);
+        if (!isNew) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_details, menu);
 
-        MenuItem deleteMenuItem = menu.findItem(R.id.action_delete);
-        deleteProfileObservable = RxMenuItem.clicks(deleteMenuItem);
-        presenter.bindMenu();
+            MenuItem deleteMenuItem = menu.findItem(R.id.action_delete);
+            deleteProfileObservable = RxMenuItem.clicks(deleteMenuItem);
+            presenter.bindMenu();
+        }
+
         return true;
     }
 
@@ -136,6 +145,16 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     public void onBackPressed() {
         super.onBackPressed();
         clearScreenComponent();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == DetailsContract.REQUEST_CODE_PICK_IMAGE) {
+            Uri imageUri = data.getData();
+            if (imageUri != null) {
+                imageSelectedObservable.onNext(imageUri.toString());
+            }
+        }
     }
 
     private void clearScreenComponent() {
@@ -165,18 +184,38 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     public void displayProfile(ProfileModel profile) {
         ageText.setText(profile.getFormattedAge());
         hobbiesText.setText(profile.getHobbies());
-        hobbiesText.setSelection(profile.getHobbies().length(), profile.getHobbies().length());
+        hobbiesText.setSelection(profile.getHobbies()
+                .length(), profile.getHobbies()
+                .length());
         nameText.setText(profile.getName());
-        nameText.setSelection(profile.getName().length(), profile.getName().length());
+        nameText.setSelection(profile.getName()
+                .length(), profile.getName()
+                .length());
         genderSpinner.setSelection(profile.getGender());
     }
 
     @Override
+    public void displayProfileImage(String path) {
+        Picasso.get()
+                .load(path)
+                .placeholder(R.drawable.ic_account)
+                .error(R.drawable.ic_account)
+                .resize(R.dimen.details_image_size, R.dimen.details_image_size)
+                .onlyScaleDown()
+                .centerCrop()
+                .into(imageView);
+    }
+
+    @Override
     public void setFormEnabled(boolean enabled) {
+        isNew = enabled;
+
         imageView.setEnabled(enabled);
         ageText.setEnabled(enabled);
         nameText.setEnabled(enabled);
         genderSpinner.setEnabled(enabled);
+
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -230,12 +269,17 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     }
 
     @Override
+    public Observable<String> onImageSelected() {
+        return imageSelectedObservable;
+    }
+
+    @Override
     public Observable<Object> onSaveProfileClick() {
         return RxView.clicks(saveFab);
     }
 
     @Override
     public Observable<Object> onSelectImageClick() {
-        return null;
+        return RxView.clicks(imageView);
     }
 }

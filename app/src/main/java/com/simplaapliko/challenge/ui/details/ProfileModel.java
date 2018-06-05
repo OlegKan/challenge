@@ -41,6 +41,7 @@ public class ProfileModel implements Parcelable {
     private String name;
     private int age;
     private String imagePath;
+    private String tempImagePath;
     private String hobbies;
 
     public ProfileModel() {
@@ -67,6 +68,7 @@ public class ProfileModel implements Parcelable {
         name = in.readString();
         age = in.readInt();
         imagePath = in.readString();
+        tempImagePath = in.readString();
         hobbies = in.readString();
     }
 
@@ -78,6 +80,7 @@ public class ProfileModel implements Parcelable {
         dest.writeString(name);
         dest.writeInt(age);
         dest.writeString(imagePath);
+        dest.writeString(tempImagePath);
         dest.writeString(hobbies);
     }
 
@@ -126,12 +129,28 @@ public class ProfileModel implements Parcelable {
         this.age = age;
     }
 
+    public void setAge(String age) {
+        try {
+            this.age = Integer.valueOf(age);
+        } catch (NumberFormatException e) {
+            this.age = 0;
+        }
+    }
+
     public String getImagePath() {
         return imagePath;
     }
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getTempImagePath() {
+        return tempImagePath;
+    }
+
+    public void setTempImagePath(String tempImagePath) {
+        this.tempImagePath = tempImagePath;
     }
 
     public String getHobbies() {
@@ -182,7 +201,6 @@ public class ProfileModel implements Parcelable {
     @Override
     public String toString() {
         return "ProfileModel{" + "isNew=" + isNew + ", id=" + id + ", gender=" + gender + ", " +
-                "name='" + name + '\'' + ", age=" + age + ", imagePath='" + imagePath + '\'' + "," +
-                " hobbies='" + hobbies + '\'' + '}';
+                "name='" + name + '\'' + ", age=" + age + ", imagePath='" + imagePath + '\'' + "," + " tempImagePath='" + tempImagePath + '\'' + ", hobbies='" + hobbies + '\'' + '}';
     }
 }

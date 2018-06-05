@@ -19,4 +19,7 @@
 
     <dimen name="list_item_text_size_primary">16sp</dimen>
     <dimen name="list_item_text_size_secondary">14sp</dimen>
+
+    <dimen name="details_image_size">148dp</dimen>
+    <dimen name="list_item_image_size">84dp</dimen>
 </resources>

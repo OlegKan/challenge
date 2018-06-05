@@ -16,26 +16,12 @@
 
 package com.simplaapliko.challenge.data.datasource;
 
-import com.simplaapliko.challenge.domain.model.Filter;
-import com.simplaapliko.challenge.domain.model.Pair;
-import com.simplaapliko.challenge.domain.model.Profile;
-import com.simplaapliko.challenge.domain.model.SortOrder;
-
-import java.util.List;
-
 import io.reactivex.Completable;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 
-public interface ProfileDataSource {
+public interface ImageDataSource {
 
-    Single<List<Profile>> getProfiles(Filter filter, SortOrder sortOrder);
+    Completable deleteImage(String path);
 
-    Observable<Pair<Profile, Integer>> observeProfilesChanges(Filter filter);
-
-    Completable addProfile(Profile profile);
-
-    Completable deleteProfile(Profile profile);
-
-    Completable updateProfile(Profile profile);
+    Single<String> uploadImage(String path);
 }

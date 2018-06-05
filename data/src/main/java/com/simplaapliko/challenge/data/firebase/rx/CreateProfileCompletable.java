@@ -17,7 +17,6 @@
 package com.simplaapliko.challenge.data.firebase.rx;
 
 import com.google.firebase.database.FirebaseDatabase;
-import com.simplaapliko.challenge.data.datasource.ProfileDataSource;
 import com.simplaapliko.challenge.data.firebase.ProfileEntity;
 
 import java.util.HashMap;
@@ -46,8 +45,8 @@ public class CreateProfileCompletable implements CompletableOnSubscribe {
         String uid = String.valueOf(profile.id);
 
         Map<String, Object> data = new HashMap<>();
-        data.put(ProfileDataSource.PATH_PROFILE + "/" + uid, profile);
-        data.put(Utils.getGenderPath(profile) + "/" + ProfileDataSource.PATH_PROFILE + "/" + uid,
+        data.put(Utils.PATH_PROFILE + "/" + uid, profile);
+        data.put(Utils.getGenderPath(profile) + "/" + Utils.PATH_PROFILE + "/" + uid,
                 profile);
 
         firebaseDatabase.getReference()

@@ -25,6 +25,9 @@ import com.simplaapliko.challenge.domain.model.SortOrder;
 
 final class Utils {
 
+    public static final String PATH_IMAGES = "images";
+    public static final String PATH_PROFILE = "profile";
+
     private Utils() { }
 
     static String getGenderPath(Filter filter) {

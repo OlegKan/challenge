@@ -39,9 +39,11 @@ buildscript {
         firebase: [
             core: "com.google.firebase:firebase-core:16.0.0",
             database: "com.google.firebase:firebase-database:16.0.1",
+            storage: "com.google.firebase:firebase-storage:16.0.1",
         ],
         googleservices: "com.google.gms:google-services:4.0.1",
         javaxannotation: "javax.annotation:jsr250-api:1.0",
+        picasso: "com.squareup.picasso:picasso:2.71828",
         reactivex: [
             'rxbinding': "com.jakewharton.rxbinding2:rxbinding:2.1.1",
             'rxjava2': "io.reactivex.rxjava2:rxjava:2.1.14",

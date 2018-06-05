@@ -21,6 +21,8 @@
     package="com.simplaapliko.challenge"
     >
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"

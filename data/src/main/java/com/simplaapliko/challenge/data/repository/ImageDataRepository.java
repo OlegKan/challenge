@@ -14,28 +14,29 @@
  * limitations under the License.
  */
 
-package com.simplaapliko.challenge.data.datasource;
+package com.simplaapliko.challenge.data.repository;
 
-import com.simplaapliko.challenge.domain.model.Filter;
-import com.simplaapliko.challenge.domain.model.Pair;
-import com.simplaapliko.challenge.domain.model.Profile;
-import com.simplaapliko.challenge.domain.model.SortOrder;
-
-import java.util.List;
+import com.simplaapliko.challenge.data.datasource.ImageDataSource;
+import com.simplaapliko.challenge.domain.repository.ImageRepository;
 
 import io.reactivex.Completable;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 
-public interface ProfileDataSource {
+public class ImageDataRepository implements ImageRepository {
 
-    Single<List<Profile>> getProfiles(Filter filter, SortOrder sortOrder);
+    private final ImageDataSource dataSource;
 
-    Observable<Pair<Profile, Integer>> observeProfilesChanges(Filter filter);
+    public ImageDataRepository(ImageDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
-    Completable addProfile(Profile profile);
+    @Override
+    public Completable deleteImage(String path) {
+        return dataSource.deleteImage(path);
+    }
 
-    Completable deleteProfile(Profile profile);
-
-    Completable updateProfile(Profile profile);
+    @Override
+    public Single<String> uploadImage(String path) {
+        return dataSource.uploadImage(path);
+    }
 }

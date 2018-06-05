@@ -24,7 +24,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.simplaapliko.challenge.data.datasource.ProfileDataSource;
 import com.simplaapliko.challenge.data.firebase.ProfileEntity;
 import com.simplaapliko.challenge.domain.model.Filter;
 import com.simplaapliko.challenge.domain.model.Pair;
@@ -57,12 +56,12 @@ public class DeleteUpdateProfileObservable implements
 
         if (filter == Filter.ALL) {
             reference = firebaseDatabase.getReference()
-                    .child(ProfileDataSource.PATH_PROFILE);
+                    .child(Utils.PATH_PROFILE);
         } else {
             String genderPath = Utils.getGenderPath(filter);
             reference = firebaseDatabase.getReference()
                     .child(genderPath)
-                    .child(ProfileDataSource.PATH_PROFILE);
+                    .child(Utils.PATH_PROFILE);
         }
 
         reference.addChildEventListener(new ValueEventCallback(emitter));

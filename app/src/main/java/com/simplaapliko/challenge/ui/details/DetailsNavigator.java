@@ -16,6 +16,10 @@
 
 package com.simplaapliko.challenge.ui.details;
 
+import android.content.Intent;
+
+import static com.simplaapliko.challenge.ui.details.DetailsContract.REQUEST_CODE_PICK_IMAGE;
+
 public class DetailsNavigator implements DetailsContract.Navigator {
 
     private final DetailsActivity activity;
@@ -27,5 +31,13 @@ public class DetailsNavigator implements DetailsContract.Navigator {
     @Override
     public void goBack() {
         activity.finish();
+    }
+
+    @Override
+    public void goToSelectImageScreen() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_PICK);
+        activity.startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
     }
 }

@@ -16,9 +16,13 @@
 
 package com.simplaapliko.challenge.di;
 
+import com.simplaapliko.challenge.data.datasource.ImageDataSource;
 import com.simplaapliko.challenge.data.datasource.ProfileDataSource;
+import com.simplaapliko.challenge.data.firebase.ImageFirebaseDataSource;
 import com.simplaapliko.challenge.data.firebase.ProfileFirebaseDataSource;
+import com.simplaapliko.challenge.data.repository.ImageDataRepository;
 import com.simplaapliko.challenge.data.repository.ProfileDataRepository;
+import com.simplaapliko.challenge.domain.repository.ImageRepository;
 import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 
 import dagger.Module;
@@ -26,6 +30,18 @@ import dagger.Provides;
 
 @Module
 class DataModule {
+
+    @Provides
+    @ApplicationScope
+    ImageDataSource provideImageDataSource() {
+        return new ImageFirebaseDataSource();
+    }
+
+    @Provides
+    @ApplicationScope
+    ImageRepository provideImageRepository(ImageDataSource dataSource) {
+        return new ImageDataRepository(dataSource);
+    }
 
     @Provides
     @ApplicationScope

@@ -45,6 +45,7 @@ dependencies {
     implementation deps.support.annotations
 
     implementation deps.firebase.database
+    implementation deps.firebase.storage
 
     implementation deps.reactivex.rxjava2
 

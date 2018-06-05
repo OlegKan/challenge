@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.simplaapliko.challenge.R;
 import com.simplaapliko.challenge.domain.model.Profile;
+import com.squareup.picasso.Picasso;
 
 class ProfileViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -66,5 +67,17 @@ class ProfileViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         }
         profileInfo.setText(String.format("%s (%s)", model.getName(), model.getAge()));
         hobbies.setText(model.getHobbies());
+
+        String imagePath = model.getImagePath();
+        if (imagePath != null && !imagePath.equals("")) {
+            Picasso.get()
+                    .load(model.getImagePath())
+                    .placeholder(R.drawable.ic_account)
+                    .error(R.drawable.ic_account)
+                    .resize(R.dimen.list_item_image_size, R.dimen.list_item_image_size)
+                    .onlyScaleDown()
+                    .centerCrop()
+                    .into(image);
+        }
     }
 }

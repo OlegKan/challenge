@@ -20,8 +20,12 @@ import io.reactivex.Observable;
 
 public interface DetailsContract {
 
+    int REQUEST_CODE_PICK_IMAGE = 200;
+
     interface Navigator {
         void goBack();
+
+        void goToSelectImageScreen();
     }
 
     interface Presenter {
@@ -34,6 +38,8 @@ public interface DetailsContract {
 
     interface View {
         void displayProfile(ProfileModel profile);
+
+        void displayProfileImage(String path);
 
         void setFormEnabled(boolean enabled);
 
@@ -54,6 +60,8 @@ public interface DetailsContract {
         void showMessage(String message);
 
         Observable<Object> onDeleteProfileClick();
+
+        Observable<String> onImageSelected();
 
         Observable<Object> onSaveProfileClick();
 
