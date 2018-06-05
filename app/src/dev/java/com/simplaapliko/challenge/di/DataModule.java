@@ -17,13 +17,32 @@
 package com.simplaapliko.challenge.di;
 
 import com.simplaapliko.challenge.data.repository.MockProfileRepository;
+import com.simplaapliko.challenge.domain.repository.ImageRepository;
 import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.Completable;
+import io.reactivex.Single;
 
 @Module
 class DataModule {
+
+    @Provides
+    @ApplicationScope
+    ImageRepository provideImageRepository() {
+        return new ImageRepository() {
+            @Override
+            public Completable deleteImage(String path) {
+                return Completable.complete();
+            }
+
+            @Override
+            public Single<String> uploadImage(String path) {
+                return Single.just("");
+            }
+        };
+    }
 
     @Provides
     @ApplicationScope
