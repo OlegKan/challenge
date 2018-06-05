@@ -24,6 +24,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -55,6 +56,7 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
     private final PublishSubject<Filter> filterSubject = PublishSubject.create();
     private final PublishSubject<SortOrder> sortOrderSubject = PublishSubject.create();
 
+    private View progress;
     private FloatingActionButton addFab;
     private ProfileAdapter adapter;
     private RecyclerView recyclerView;
@@ -84,6 +86,7 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
     }
 
     private void bindViews() {
+        progress = findViewById(R.id.progress);
         addFab = findViewById(R.id.add_fab);
 
         adapter = new ProfileAdapter();
@@ -188,6 +191,16 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
     protected void onDestroy() {
         presenter.destroy();
         super.onDestroy();
+    }
+
+    @Override
+    public void hideProgress() {
+        progress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showProgress() {
+        progress.setVisibility(View.VISIBLE);
     }
 
     @Override

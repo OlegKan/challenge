@@ -37,6 +37,10 @@ public interface DetailsContract {
     }
 
     interface View {
+        void hideProgress();
+
+        void showProgress();
+
         void displayProfile(ProfileModel profile);
 
         void displayProfileImage(String path);

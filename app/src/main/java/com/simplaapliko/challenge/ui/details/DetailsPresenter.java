@@ -98,6 +98,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     }
 
     private void handleSaveProfileAction() {
+        view.showProgress();
         if (profile.isNew()) {
             profile.setAge(view.getAge());
             profile.setGender(view.getGender());
@@ -130,10 +131,12 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     }
 
     private void handleModifyProfileSuccess() {
+        view.hideProgress();
         navigator.goBack();
     }
 
     private void handleAddProfileError(Throwable throwable) {
+        view.hideProgress();
         if (throwable instanceof ProfileValidationException) {
             handleValidationErrors(((ProfileValidationException) throwable).getErrors());
         } else {
@@ -160,6 +163,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     }
 
     private void handleUpdateProfileError(Throwable throwable) {
+        view.hideProgress();
         view.showMessage(errorMessageFactory.getGenericErrorMessage());
     }
 
@@ -182,6 +186,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     }
 
     private void handleDeleteProfileAction() {
+        view.showProgress();
         Disposable deleteProfile = imageRepository.deleteImage(profile.getImagePath())
                 .andThen(profileRepository.deleteProfile(profile.toProfile()))
                 .compose(rxSchedulers.getIoToMainTransformerCompletable())
@@ -190,6 +195,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     }
 
     private void handleDeleteProfileError(Throwable throwable) {
+        view.hideProgress();
         view.showMessage(errorMessageFactory.getGenericErrorMessage());
     }
 }

@@ -16,6 +16,7 @@
 
 package com.simplaapliko.challenge.ui.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,8 @@ import com.simplaapliko.challenge.R;
 import com.simplaapliko.challenge.di.ApplicationComponent;
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,4 +51,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract int getContentView();
 
     protected abstract void injectDependencies(ApplicationComponent applicationComponent);
+
+    protected void setProgressVisibility(boolean visible) {
+        if (visible) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getString(R.string.please_wait));
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+        } else {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+        }
+    }
 }

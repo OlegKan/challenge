@@ -56,6 +56,7 @@ public class OverviewPresenter implements OverviewContract.Presenter {
     }
 
     private void refreshData(Filter filter, SortOrder sortOrder) {
+        view.showProgress();
         if (getProfilesDisposable != null && !getProfilesDisposable.isDisposed()) {
             getProfilesDisposable.dispose();
             disposables.delete(getProfilesDisposable);
@@ -68,6 +69,7 @@ public class OverviewPresenter implements OverviewContract.Presenter {
     }
 
     private void handleGetAllProfileSuccess(List<Profile> data) {
+        view.hideProgress();
         view.displayProfiles(data);
     }
 
@@ -93,6 +95,7 @@ public class OverviewPresenter implements OverviewContract.Presenter {
     }
 
     private void handleGetProfileError(Throwable throwable) {
+        view.hideProgress();
         view.showMessage(throwable.getLocalizedMessage());
     }
 

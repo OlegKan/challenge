@@ -39,6 +39,10 @@ public interface OverviewContract {
     }
 
     interface View {
+        void hideProgress();
+
+        void showProgress();
+
         void displayProfiles(List<Profile> profiles);
 
         void addProfile(Profile profile);

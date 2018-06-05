@@ -29,13 +29,15 @@
     <string name="action_sort_by_name_asc">Name (asc)</string>
     <string name="action_sort_by_name_desc">Name (desc)</string>
 
+    <string name="activity_details">Profile</string>
+    <string name="activity_overview">Profiles</string>
+
     <string name="profile_age">Age</string>
     <string name="profile_gender">Gender</string>
     <string name="profile_hobbies">Hobbies</string>
     <string name="profile_name">Name</string>
 
-    <string name="activity_details">Profile</string>
-    <string name="activity_overview">Profiles</string>
+    <string name="please_wait">Please wait…</string>
 
     <string name="error_unknown">Unknown error</string>
     <string name="validation_error_profile_age">Age should be in range 14 : 125</string>

@@ -142,6 +142,16 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     }
 
     @Override
+    public void hideProgress() {
+        setProgressVisibility(false);
+    }
+
+    @Override
+    public void showProgress() {
+        setProgressVisibility(true);
+    }
+
+    @Override
     public void displayProfile(ProfileModel profile) {
         ageText.setText(profile.getFormattedAge());
         hobbiesText.setText(profile.getHobbies());

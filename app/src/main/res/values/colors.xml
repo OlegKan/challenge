@@ -25,6 +25,7 @@
     <color name="text_color_secondary">#757575</color>
 
     <color name="divider_color">#BDBDBD</color>
+    <color name="semitransparent_color">#75757550</color>
 
     <color name="color_female">#FCE4EC</color>
     <color name="color_male">#E1F5FE</color>
