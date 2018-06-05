@@ -106,6 +106,12 @@ public class OverviewPresenter implements OverviewContract.Presenter {
                 .subscribe(this::handleSelectFilterAction, throwable -> handleUnknownError());
         disposables.add(filter);
 
+        Disposable listChange = view.onProfileListChange()
+                .observeOn(rxSchedulers.getMainThreadScheduler())
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .subscribe(this::handleBeerListCountChange, throwable -> handleUnknownError());
+        disposables.add(listChange);
+
         Disposable sort = view.onSortOrderChange()
                 .observeOn(rxSchedulers.getMainThreadScheduler())
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
@@ -127,6 +133,14 @@ public class OverviewPresenter implements OverviewContract.Presenter {
 
     private void handleSelectFilterAction(Filter filter) {
         refreshData(filter, view.getSelectedSortOrder());
+    }
+
+    private void handleBeerListCountChange(Integer count) {
+        if (count == 0) {
+            view.setEmptyMessageVisibility(true);
+        } else {
+            view.setEmptyMessageVisibility(false);
+        }
     }
 
     private void handleSelectSortOrderAction(SortOrder sortOrder) {

@@ -43,6 +43,8 @@ public interface OverviewContract {
 
         void showProgress();
 
+        void setEmptyMessageVisibility(Boolean visible);
+
         void displayProfiles(List<Profile> profiles);
 
         void addProfile(Profile profile);
@@ -60,6 +62,8 @@ public interface OverviewContract {
         Observable<Object> onAddProfileClick();
 
         Observable<Filter> onFilterChange();
+
+        Observable<Integer> onProfileListChange();
 
         Observable<SortOrder> onSortOrderChange();
 

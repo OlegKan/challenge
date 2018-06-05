@@ -27,6 +27,7 @@ import com.simplaapliko.challenge.domain.model.Profile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
@@ -43,6 +44,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileViewHolder> {
     };
 
     private PublishSubject<Profile> onClickSubject = PublishSubject.create();
+    private PublishSubject<Integer> onItemsChangeSubject = PublishSubject.create();
 
     @NonNull
     @Override
@@ -69,12 +71,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileViewHolder> {
         } else {
             this.items = new ArrayList<>(items);
         }
+        notifyItemChangeListener();
     }
 
     public void addItem(@NonNull Profile item) {
         items.add(item);
         int position = items.size() - 1;
         notifyItemInserted(position);
+        notifyItemChangeListener();
     }
 
     public void deleteItem(@NonNull Profile item) {
@@ -83,6 +87,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileViewHolder> {
             items.remove(index);
             notifyItemRemoved(index);
         }
+        notifyItemChangeListener();
     }
 
     public void updateItem(@NonNull Profile item) {
@@ -96,5 +101,13 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileViewHolder> {
 
     public Observable<Profile> getClickObservable() {
         return onClickSubject;
+    }
+
+    public Observable<Integer> getOnItemsChangeObservable() {
+        return onItemsChangeSubject.delay(50, TimeUnit.MILLISECONDS);
+    }
+
+    private void notifyItemChangeListener() {
+        onItemsChangeSubject.onNext(getItemCount());
     }
 }

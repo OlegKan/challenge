@@ -38,6 +38,7 @@
     <string name="profile_name">Name</string>
 
     <string name="please_wait">Please wait…</string>
+    <string name="profile_list_empty_message">Saved profiles will show up here</string>
 
     <string name="error_unknown">Unknown error</string>
     <string name="validation_error_profile_age">Age should be in range 14 : 125</string>

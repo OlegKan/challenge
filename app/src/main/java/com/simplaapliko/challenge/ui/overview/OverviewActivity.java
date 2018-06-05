@@ -56,6 +56,7 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
     private final PublishSubject<Filter> filterSubject = PublishSubject.create();
     private final PublishSubject<SortOrder> sortOrderSubject = PublishSubject.create();
 
+    private View emptyView;
     private View progress;
     private FloatingActionButton addFab;
     private ProfileAdapter adapter;
@@ -86,6 +87,7 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
     }
 
     private void bindViews() {
+        emptyView = findViewById(R.id.empty_view);
         progress = findViewById(R.id.progress);
         addFab = findViewById(R.id.add_fab);
 
@@ -204,6 +206,11 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
     }
 
     @Override
+    public void setEmptyMessageVisibility(Boolean visible) {
+        emptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
     public void displayProfiles(List<Profile> profiles) {
         adapter.setItems(profiles);
         adapter.notifyDataSetChanged();
@@ -249,6 +256,11 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
     @Override
     public Observable<Filter> onFilterChange() {
         return filterSubject;
+    }
+
+    @Override
+    public Observable<Integer> onProfileListChange() {
+        return adapter.getOnItemsChangeObservable();
     }
 
     @Override
