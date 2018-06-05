@@ -217,6 +217,11 @@ public class OverviewActivity extends BaseActivity implements OverviewContract.V
     }
 
     @Override
+    public List<Profile> getProfiles() {
+        return adapter.getItems();
+    }
+
+    @Override
     public void addProfile(Profile profile) {
         adapter.addItem(profile);
         //recyclerView.smoothScrollToPosition(adapter.getItemCount());

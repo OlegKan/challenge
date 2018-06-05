@@ -17,6 +17,7 @@
 package com.simplaapliko.challenge.ui.overview.adapder;
 
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,10 +66,19 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileViewHolder> {
         return items.size();
     }
 
+    @NonNull
+    public List<Profile> getItems() {
+        return new ArrayList<>(items);
+    }
+
     public void setItems(@NonNull List<Profile> items) {
         if (items == null) {
             this.items = new ArrayList<>();
         } else {
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
+                    new ProfileDiffCallback(items, this.items));
+            diffResult.dispatchUpdatesTo(this);
+
             this.items = new ArrayList<>(items);
         }
         notifyItemChangeListener();

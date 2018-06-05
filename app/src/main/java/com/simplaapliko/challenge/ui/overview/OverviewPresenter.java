@@ -16,6 +16,7 @@
 
 package com.simplaapliko.challenge.ui.overview;
 
+import com.simplaapliko.challenge.domain.Utils;
 import com.simplaapliko.challenge.domain.model.Filter;
 import com.simplaapliko.challenge.domain.model.Pair;
 import com.simplaapliko.challenge.domain.model.Profile;
@@ -23,6 +24,7 @@ import com.simplaapliko.challenge.domain.model.SortOrder;
 import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 import com.simplaapliko.challenge.rx.RxSchedulers;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -86,12 +88,32 @@ public class OverviewPresenter implements OverviewContract.Presenter {
 
     private void handleObserveChangesSuccess(Pair<Profile, Integer> data) {
         if (data.second == 0) {
-            view.addProfile(data.first);
+            handleAddProfile(data.first);
         } else if (data.second == 1) {
-            view.deleteProfile(data.first);
+            handleDeleteProfile(data.first);
         } else {
-            view.updateProfile(data.first);
+            handleUpdateProfile(data.first);
         }
+    }
+
+    private void handleAddProfile(Profile profile) {
+        SortOrder sortOrder = view.getSelectedSortOrder();
+        if (sortOrder == SortOrder.ID_ASC) {
+            view.addProfile(profile);
+        } else {
+            List<Profile> profiles = view.getProfiles();
+            profiles.add(profile);
+            Collections.sort(profiles, Utils.getComparator(sortOrder));
+            view.displayProfiles(profiles);
+        }
+    }
+
+    private void handleDeleteProfile(Profile profile) {
+        view.deleteProfile(profile);
+    }
+
+    private void handleUpdateProfile(Profile profile) {
+        view.updateProfile(profile);
     }
 
     private void handleGetProfileError(Throwable throwable) {

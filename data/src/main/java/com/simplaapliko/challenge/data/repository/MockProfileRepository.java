@@ -18,15 +18,14 @@ package com.simplaapliko.challenge.data.repository;
 
 import android.support.annotation.NonNull;
 
+import com.simplaapliko.challenge.domain.Utils;
 import com.simplaapliko.challenge.domain.model.Filter;
 import com.simplaapliko.challenge.domain.model.Pair;
 import com.simplaapliko.challenge.domain.model.Profile;
-import com.simplaapliko.challenge.domain.model.ProfileComparator;
 import com.simplaapliko.challenge.domain.model.SortOrder;
 import com.simplaapliko.challenge.domain.repository.ProfileRepository;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -58,7 +57,7 @@ public class MockProfileRepository implements ProfileRepository {
                         return profile.isMale();
                     }
                 })
-                .toSortedList(getComparator(sortOrder));
+                .toSortedList(Utils.getComparator(sortOrder));
     }
 
     @Override
@@ -96,31 +95,6 @@ public class MockProfileRepository implements ProfileRepository {
             }
             return Completable.complete();
         });
-    }
-
-    private @NonNull Comparator<Profile> getComparator(SortOrder sortOrder) {
-        Comparator<Profile> comparator;
-        switch (sortOrder) {
-            case ID_ASC:
-                comparator = new ProfileComparator.IdAsc();
-                break;
-            case AGE_ASC:
-                comparator = new ProfileComparator.AgeAsc();
-                break;
-            case AGE_DESC:
-                comparator = new ProfileComparator.AgeDesc();
-                break;
-            case NAME_ASC:
-                comparator = new ProfileComparator.NameAsc();
-                break;
-            case NAME_DESC:
-                comparator = new ProfileComparator.NameDesc();
-                break;
-            default:
-                comparator = new ProfileComparator.IdAsc();
-                break;
-        }
-        return comparator;
     }
 
     private Observable<Pair<Profile, Integer>> observeAddedProfiles() {

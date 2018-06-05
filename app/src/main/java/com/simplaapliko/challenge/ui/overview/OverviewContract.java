@@ -47,6 +47,8 @@ public interface OverviewContract {
 
         void displayProfiles(List<Profile> profiles);
 
+        List<Profile> getProfiles();
+
         void addProfile(Profile profile);
 
         void deleteProfile(Profile profile);
