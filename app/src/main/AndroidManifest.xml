@@ -37,6 +37,7 @@
         <activity
             android:name=".ui.overview.OverviewActivity"
             android:label="@string/activity_overview"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             />
 
@@ -44,12 +45,14 @@
             android:name=".ui.details.DetailsActivity"
             android:label="@string/activity_details"
             android:parentActivityName=".ui.overview.OverviewActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"
             />
 
         <activity
             android:name=".ui.LauncherActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher"
             />
 

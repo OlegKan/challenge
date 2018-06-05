@@ -24,7 +24,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatSpinner;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,11 +46,6 @@ import io.reactivex.subjects.PublishSubject;
 public class DetailsActivity extends BaseActivity implements DetailsContract.View {
 
     public static final String EXTRA_PROFILE = "simplaapliko.extra.PROFILE";
-
-    private static final String BUNDLE_SCREEN_SESSION_ID = "screenSessionId";
-    private static final SparseArray<DetailsComponent> SCREEN_COMPONENT_CACHE = new SparseArray<>();
-    private static int sScreenSessionCounter;
-    private int screenSessionId;
 
     private boolean isNew = true;
 
@@ -79,13 +73,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            screenSessionId = savedInstanceState.getInt(BUNDLE_SCREEN_SESSION_ID, 1);
-        } else {
-            sScreenSessionCounter++;
-            screenSessionId = sScreenSessionCounter;
-        }
-
         super.onCreate(savedInstanceState);
 
         ActionBar actionBar = getSupportActionBar();
@@ -106,14 +93,9 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
     @Override
     protected void injectDependencies(ApplicationComponent applicationComponent) {
-        DetailsComponent screenComponent = SCREEN_COMPONENT_CACHE.get(screenSessionId);
-        if (screenComponent == null) {
-            ProfileModel profile = getIntent().getParcelableExtra(EXTRA_PROFILE);
-
-            screenComponent = applicationComponent.plus(new DetailsComponent.Module(this, profile));
-            SCREEN_COMPONENT_CACHE.put(screenSessionId, screenComponent);
-        }
-        screenComponent.inject(this);
+        ProfileModel profile = getIntent().getParcelableExtra(EXTRA_PROFILE);
+        applicationComponent.plus(new DetailsComponent.Module(this, profile))
+                .inject(this);
     }
 
     @Override
@@ -131,23 +113,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        clearScreenComponent();
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == DetailsContract.REQUEST_CODE_PICK_IMAGE) {
             Uri imageUri = data.getData();
@@ -155,10 +120,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                 imageSelectedObservable.onNext(imageUri.toString());
             }
         }
-    }
-
-    private void clearScreenComponent() {
-        SCREEN_COMPONENT_CACHE.remove(screenSessionId);
     }
 
     private void bindViews() {
@@ -184,13 +145,9 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     public void displayProfile(ProfileModel profile) {
         ageText.setText(profile.getFormattedAge());
         hobbiesText.setText(profile.getHobbies());
-        hobbiesText.setSelection(profile.getHobbies()
-                .length(), profile.getHobbies()
-                .length());
+        hobbiesText.setSelection(profile.getHobbies().length(), profile.getHobbies().length());
         nameText.setText(profile.getName());
-        nameText.setSelection(profile.getName()
-                .length(), profile.getName()
-                .length());
+        nameText.setSelection(profile.getName().length(), profile.getName().length());
         genderSpinner.setSelection(profile.getGender());
     }
 
@@ -220,8 +177,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
     @Override
     public String getAge() {
-        return ageText.getText()
-                .toString();
+        return ageText.getText().toString();
     }
 
     @Override
@@ -231,14 +187,12 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
     @Override
     public String getHobbies() {
-        return hobbiesText.getText()
-                .toString();
+        return hobbiesText.getText().toString();
     }
 
     @Override
     public String getName() {
-        return nameText.getText()
-                .toString();
+        return nameText.getText().toString();
     }
 
     @Override
@@ -248,8 +202,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
     @Override
     public void showGenderError(String error) {
-        Toast.makeText(this, error, Toast.LENGTH_SHORT)
-                .show();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -259,8 +212,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
     @Override
     public void showMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT)
-                .show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
