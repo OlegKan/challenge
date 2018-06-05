@@ -54,6 +54,7 @@ public class OverviewPresenterTest {
         when(mockView.getSelectedFilter()).thenReturn(Filter.ALL);
         when(mockView.onAddProfileClick()).thenReturn(Observable.never());
         when(mockView.onFilterChange()).thenReturn(Observable.never());
+        when(mockView.onProfileListChange()).thenReturn(Observable.never());
         when(mockView.onShowProfileClick()).thenReturn(Observable.never());
         when(mockView.onSortOrderChange()).thenReturn(Observable.never());
 
